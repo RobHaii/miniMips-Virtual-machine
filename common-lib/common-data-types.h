@@ -11,8 +11,8 @@
 #define I_TYPE   1
 #define J_TYPE        2
 
-#define $zero   0
-#define $at     1
+#define $zero   0   ///AHRD WIRED ZERO
+#define $at     1   ///assembler temporary
 #define $v0     2
 #define $v1     3
 #define $a0     4
@@ -44,39 +44,45 @@
 #define $fp     20
 #define $ra     31
 
-///OPcodes
-#define ADD     0
-#define SUB     1
-#define ADDI    2
-#define MUL     3
-#define DIV     4
-#define LW      5
-#define SW      6
-#define LUI     7
-#define AND     8
-#define OR      9
-#define NOR     10
-#define ANDI    11
-#define ORI     12
-#define XOR     13
-#define SLL     14
-#define SRL     15
-#define BEQ     16
-#define BNE     17
-#define SLT     18
-#define SLTU    19
-#define SLTI    20
-#define SLTIU   21
-#define SGT     22
-#define SGTU    23
-#define SGTI    24
-#define SGTIU   25
-#define J       26
-#define JR      27
-#define JAL     28
-#define HALT    29
-#define INT     30
-#define UNDEFINED     31
+
+
+
+///OPcodes and mnemonics
+
+///all operations use data in register unless specified with the word "immediate" in the commnet
+/// all operation assume signed data unless specified by the term "unsigned" in the associated comment
+#define ADD     0   ///addition
+#define SUB     1   ///subtraction
+#define ADDI    2   ///addition with immediate value
+#define MUL     3   ///multiplication
+#define DIV     4   ///division
+#define LW      5   ///load word from memory
+#define SW      6   ///store word to memory
+#define LUI     7   /// load upper segment of memory with immediate data
+#define AND     8   /// logical and
+#define OR      9   ///logical or
+#define NOR     10  ///logical NOR
+#define ANDI    11  ///logical and with immediate data
+#define ORI     12  ///logical or with immediate data
+#define XOR     13  ///logical execlusive
+#define SLL     14  ///shif left logical
+#define SRL     15  ///shift right logical
+#define BEQ     16  ///branch if equal
+#define BNE     17  ///branch if not equal
+#define SLT     18  ///set on less than
+#define SLTU    19  ///set on less than (unsigned commparision)
+#define SLTI    20  ///set on less than with immediate operand
+#define SLTIU   21  ///set on less than with immediate operand ( unsigned comparison)
+#define SGT     22  ///set on greater than
+#define SGTU    23  ///set on greater than (unsigned comparison)
+#define SGTI    24  ///set on greater than with immediate operand
+#define SGTIU   25  ///set on greater than with immmediate operand (usigned comparison)
+#define J       26  ///jump
+#define JR      27  ///jump to location in register
+#define JAL     28  ///jump and link, procedure call, stores the current $pc + 4 to register $ra
+#define HALT    29  /// halt
+#define INT     30  ///handle interupt specified by the INTERUPT_ID
+#define UNDEFINED     31    /// NOT IN USE!!!
 
 
 

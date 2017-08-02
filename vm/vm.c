@@ -52,27 +52,22 @@ void fetch(){
 
 void decode()
 {
-    int opcode;
-    opcode = (_inst_buffer & 0xfc000000) >> 26; ///read the 6 MSBits into an integer value
-    switch(opcode){
-        case 0:     ///arithmetic               -- parse R-TYPE
-        case 2:     ///logical operations
-            parse_args(R_TYPE);
-            break;
-        case 1:     ///memory access            -- parse I-TYPE
-        case 3:     ///conditional branch
-            parse_args(I_TYPE);
-            break;
-        case 4:     ///unconditional branch     -- parse J-TYPE
-        case 5:     ///Halt
-            parse_args(J_TYPE);
-            break;
-        default:    ///i dont know what to call this,
-            printf("[-]ERROR::Unknown opcode %d found in instruction -> [%x] %x", opcode, vm->Registers[$pc], _inst_buffer);
 
-            ///kill the virtual machine
-            vm->_status_running = 0;
-            break;
+    opcode = (_inst_buffer & 0xfc000000) >> 26; ///read the 6 MSBits into an integer value
+    if((opcode >= 0 && opcode <= 4) || (opcode >= 8 && opcode <= 15))   ///-- parse R-TYPE
+    {
+        parse_args(R_TYPE);
+    }else if((opcode >= 5 && opcode <= 7)  || (opcode >= 16 && opcode <= 25))    ///-- parse I-TYPE
+    {
+        parse_args(I_TYPE);
+    }else if(opcode >= 26 && opcode <= 32)                          ///-- parse J-TYPE
+    {
+        parse_args(J_TYPE);
+    }else{
+        printf("[-]ERROR::Unknown opcode %d found in instruction -> [%x] %x", opcode, vm->Registers[$pc], _inst_buffer);
+
+        ///kill the virtual machine
+        vm->_status_running = 0;
     }
 }
 

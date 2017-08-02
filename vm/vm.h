@@ -46,6 +46,9 @@ Word _inst_buffer;
 /// used in instruction decoding
 int operands[4];
 
+///buffer to hold opecode
+int opcode;
+
 ///init and deinit funcs for vm
 void init_vm();
 void delete_vm();
