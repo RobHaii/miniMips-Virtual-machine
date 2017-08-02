@@ -9,14 +9,20 @@
 
 int main(int argc, char *argv[])
 {
+
+
+    /// parse the argumets to recieve program filename
 //    if(argc < 2)
 //        print_usage(argv[0], "program-file");
 
-    ///ini the machine
+    ///init the machine
     init_vm();
+
+
 ///    load_program()
 
     ///run
+///    run();
     ///dont forget to always deallocate the memory used by the machine
     delete_vm();
     return 0;

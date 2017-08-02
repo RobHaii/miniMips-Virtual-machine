@@ -44,6 +44,41 @@
 #define $fp     20
 #define $ra     31
 
+///OPcodes
+#define ADD     0
+#define SUB     1
+#define ADDI    2
+#define MUL     3
+#define DIV     4
+#define LW      5
+#define SW      6
+#define LUI     7
+#define AND     8
+#define OR      9
+#define NOR     10
+#define ANDI    11
+#define ORI     12
+#define XOR     13
+#define SLL     14
+#define SRL     15
+#define BEQ     16
+#define BNE     17
+#define SLT     18
+#define SLTU    19
+#define SLTI    20
+#define SLTIU   21
+#define SGT     22
+#define SGTU    23
+#define SGTI    24
+#define SGTIU   25
+#define J       26
+#define JR      27
+#define JAL     28
+#define HALT    29
+#define INT     30
+#define UNDEFINED     31
+
+
 
 //define the data types
 typedef unsigned char Byte;         //8bits

@@ -56,21 +56,15 @@ void decode()
     opcode = (_inst_buffer & 0xfc000000) >> 26; ///read the 6 MSBits into an integer value
     switch(opcode){
         case 0:     ///arithmetic               -- parse R-TYPE
+        case 2:     ///logical operations
             parse_args(R_TYPE);
             break;
         case 1:     ///memory access            -- parse I-TYPE
-            parse_args(I_TYPE);
-            break;
-        case 2:     ///logical operations       -- parse R-TYPE
-            parse_args(R_TYPE);
-            break;
-        case 3:     ///conditional branch       -- parse I-TYPE
+        case 3:     ///conditional branch
             parse_args(I_TYPE);
             break;
         case 4:     ///unconditional branch     -- parse J-TYPE
-            parse_args(J_TYPE);
-            break;
-        case 5:     ///Halt                     -- parse J-TYPE
+        case 5:     ///Halt
             parse_args(J_TYPE);
             break;
         default:    ///i dont know what to call this,
