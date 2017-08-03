@@ -1,2 +1,4 @@
 /.idea		# CLion files
 /vm/*.o
+/common-libs/*.o
+/assembler/*.o
