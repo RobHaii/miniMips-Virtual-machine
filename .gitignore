@@ -1,4 +1,2 @@
-/.idea		# CLion files
-/vm/*.o     #object files
-/common-libs/*.o
-/assembler/*.o
+/.idea/		# CLion files
+*.o     #object files
