@@ -20,7 +20,7 @@ void init_vm(){
     vm->_status_running = 1;
 
     ///ini the PC at 0x0040
-    vm->Registers[$pc] = 0x0040;
+    vm->$pc = 0x0040;
 
     ///init the SP and the FP at the bottom of the ram
     vm->Registers[$sp] = RAM_SIZE/4;
@@ -44,10 +44,10 @@ void delete_vm(){
 
 void fetch(){
     ///load the current instruction
-    _inst_buffer = vm->RAM[vm->Registers[$pc]];
+    _inst_buffer = vm->RAM[vm->$pc];
 
     ///increment the program counter to the next instruction
-    vm->Registers[$pc] += 4;
+    vm->$pc += 4;
 }
 
 void decode()
@@ -73,11 +73,12 @@ void decode()
 
 void execute()
 {
-
+    printf("[Debug]::Executing instruction\n");
 }
 
 void run()
 {
+    printf("[Debug]::Starting machine\n");
     while(vm->_status_running)
     {
         fetch();

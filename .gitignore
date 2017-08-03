@@ -1,1 +1,2 @@
 /.idea		# CLion files
+/vm/*.o

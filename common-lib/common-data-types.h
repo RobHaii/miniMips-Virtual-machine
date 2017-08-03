@@ -8,8 +8,8 @@
 
 //instruction encoding modes
 #define R_TYPE  0
-#define I_TYPE   1
-#define J_TYPE        2
+#define I_TYPE  1
+#define J_TYPE  2
 
 #define $zero   0   ///AHRD WIRED ZERO
 #define $at     1   ///assembler temporary
@@ -38,7 +38,7 @@
 #define $t8     24
 #define $t9     25
 #define $k0     26
-#define $pc     27  //program counter - k1 in MIPS standard and is reserved for os use only
+#define $k1     27
 #define $gp     28
 #define $sp     29
 #define $fp     20
@@ -83,7 +83,6 @@
 #define HALT    29  /// halt
 #define INT     30  ///handle interupt specified by the INTERUPT_ID
 #define UNDEFINED     31    /// NOT IN USE!!!
-
 
 
 //define the data types

@@ -30,6 +30,7 @@
 #include "../common-lib/common-data-types.h"
 
 struct Vitrual_Machine{
+    Word $pc;
     Word *Registers;
     Word *RAM;
     int _status_running;
