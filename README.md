@@ -1,7 +1,7 @@
 # MiniMips Virtual Machine
 
-I think all the directory names are self descirptive, except for common-libs. it contains information and code that we can use for both the 
-virtual machine and the assembler (register codes, data-size definations, etc).
+I think all the directory names are self descriptive, except for common-libs. it contains information and code that we can use for both the
+virtual machine and the assembler (register codes, data-size definitions, etc).
 
 will put the ISA details here soon.
 

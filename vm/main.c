@@ -19,10 +19,11 @@ int main(int argc, char *argv[])
     init_vm();
 
 
-///    load_program()
+    load_program("program_file.txt");
 
     ///run
-///    run();
+    run();
+
     ///dont forget to always deallocate the memory used by the machine
     delete_vm();
     return 0;

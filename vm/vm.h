@@ -45,7 +45,7 @@ Word _inst_buffer;
 
 /// global variable used as buffer for operand storage
 /// used in instruction decoding
-int operands[4];
+signed int operands[4];     ///signed because it also holds signed immediate values
 
 ///buffer to hold opecode
 int opcode;
@@ -75,5 +75,24 @@ void run();
 ///helper function to parse arguments given
 /// the instrucrion type {R | I | J}
 void parse_args(int );
+
+
+
+///helper functions to aid the main execute function
+/// implement primitive operations
+///perform the neccesary operations based on pre-parsed information
+void arithmetic_operations();
+void logical_operations();
+void memory_access();
+void conditional_branch_operations();
+void unconditional_branch_operations();
+
+
+///helper functions to help convert signed immediate values to diffrent data sizes [word -> half word && half word -> word]
+///sign extention and stuff
+signed int _convert_halfword_to_word(signed short );
+
+
+
 
 #endif //VIRT_MACHINE_VM_H
