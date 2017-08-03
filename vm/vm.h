@@ -90,7 +90,7 @@ void unconditional_branch_operations();
 
 ///helper functions to help convert signed immediate values to diffrent data sizes [word -> half word && half word -> word]
 ///sign extention and stuff
-signed int _convert_halfword_to_word(signed short );
+signed int _convert_halfword_to_word(int );
 
 
 

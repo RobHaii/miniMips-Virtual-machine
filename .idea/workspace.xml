@@ -12,12 +12,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6a1a9bdf-7074-42aa-b630-1a4fd0a4d78a" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/common-lib/common-data-types.h" afterPath="$PROJECT_DIR$/common-lib/common-data-types.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm/main.c" afterPath="$PROJECT_DIR$/vm/main.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm/vm.c" afterPath="$PROJECT_DIR$/vm/vm.c" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm/vm.h" afterPath="$PROJECT_DIR$/vm/vm.h" />
     </list>
     <ignored path="virt-machine.iws" />
@@ -38,11 +32,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="vm.h" pinned="false" current-in-tab="false">
+      <file leaf-file-name="vm.h" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/vm/vm.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="732">
-              <caret line="72" column="11" selection-start-line="72" selection-start-column="11" selection-end-line="72" selection-end-column="11" />
+            <state relative-caret-position="441">
+              <caret line="92" column="40" selection-start-line="92" selection-start-column="40" selection-end-line="92" selection-end-column="40" />
               <folding>
                 <element signature="e#571#610#0" expanded="true" />
               </folding>
@@ -90,11 +84,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="vm.c" pinned="false" current-in-tab="true">
+      <file leaf-file-name="vm.c" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vm/vm.c">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="567">
-              <caret line="357" column="28" selection-start-line="357" selection-start-column="28" selection-end-line="357" selection-end-column="28" />
+              <caret line="357" column="0" selection-start-line="357" selection-start-column="0" selection-end-line="357" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -144,9 +138,9 @@
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/vm/main.c" />
-        <option value="$PROJECT_DIR$/vm/vm.h" />
         <option value="$PROJECT_DIR$/common-lib/common-data-types.h" />
         <option value="$PROJECT_DIR$/vm/vm.c" />
+        <option value="$PROJECT_DIR$/vm/vm.h" />
       </list>
     </option>
   </component>
@@ -446,7 +440,7 @@
       <workItem from="1501661576901" duration="13424000" />
       <workItem from="1501742240750" duration="434000" />
       <workItem from="1501742696279" duration="48000" />
-      <workItem from="1501742806131" duration="13020000" />
+      <workItem from="1501742806131" duration="13282000" />
     </task>
     <task id="LOCAL-00001" summary="included the opcodes to the common-lib/common-data-types.h file">
       <created>1501679943750</created>
@@ -480,11 +474,11 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="31701000" />
+    <option name="totallyTimeSpent" value="31963000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1985" y="24" width="1855" height="1056" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12722372" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -492,7 +486,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32858595" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29969418" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29969418" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -798,16 +792,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vm/vm.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="732">
-          <caret line="72" column="11" selection-start-line="72" selection-start-column="11" selection-end-line="72" selection-end-column="11" />
-          <folding>
-            <element signature="e#571#610#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vm/main.c">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="54">
@@ -843,8 +827,18 @@
     <entry file="file://$PROJECT_DIR$/vm/vm.c">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="567">
-          <caret line="357" column="28" selection-start-line="357" selection-start-column="28" selection-end-line="357" selection-end-column="28" />
+          <caret line="357" column="0" selection-start-line="357" selection-start-column="0" selection-end-line="357" selection-end-column="10" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vm/vm.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="441">
+          <caret line="92" column="40" selection-start-line="92" selection-start-column="40" selection-end-line="92" selection-end-column="40" />
+          <folding>
+            <element signature="e#571#610#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
