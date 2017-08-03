@@ -64,7 +64,7 @@ void decode()
     {
         parse_args(J_TYPE);
     }else{
-        printf("[-]ERROR::Unknown opcode %d found in instruction -> [%x] %x", opcode, vm->Registers[$pc], _inst_buffer);
+        printf("[-]ERROR::Unknown opcode %d found in instruction -> [%x] %x", opcode, vm->$pc, _inst_buffer);
 
         ///kill the virtual machine
         vm->_status_running = 0;
