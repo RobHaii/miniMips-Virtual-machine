@@ -74,6 +74,78 @@ void decode()
 void execute()
 {
     printf("[Debug]::Executing instruction\n");
+    switch (opcode)
+    {
+            ///arithmetic operations (5)
+        case ADD:
+        case SUB:
+        case MUL:
+        case DIV:
+        case ADDI:
+            arithmetic_operations();
+            break;
+
+            ///logical operations (8)
+        case AND:
+        case OR:
+        case NOR:
+        case XOR:
+        case ANDI:
+        case ORI:
+        case SLL:
+        case SRL:
+            logical_operations();
+            break;
+
+            ///memory access operations (3)
+        case LW:
+        case SW:
+        case LUI:
+            memory_access();
+            break;
+
+            ///conditional operations (10)
+        case BEQ:
+        case BNE:
+        case SLT:
+        case SLTU:
+        case SLTI:
+        case SLTIU:
+        case SGT:
+        case SGTU:
+        case SGTI:
+        case SGTIU:
+            conditional_operations();
+            break;
+
+            ///unconditional branch operations (3)
+        case J:
+        case JR:
+        case JAL:
+            unconditional_branch_operations();
+            break;
+
+            ///halt
+        case HALT:
+            halt();
+            break;
+
+
+            ///interrupts
+        case INT:
+            interrupt();
+            break;
+
+
+            ///default --- ERROR
+        default: ///something must have gone terribly wrong
+            ///print error message and quit
+            printf("[-]ERROR::opecode %d doesn't represent a valid arithmetic instruction\n", opcode);
+            vm->_status_running = 0;
+            break;
+
+    }
+
 
 }
 
@@ -128,7 +200,7 @@ void load_program(char *filename){
     ///dummy instructions for testing only
     ///write 6 dummy instructions
     ///for testing
-    int var = 0x0f000000;
+    int var = 0x74000000;
     for(int i = 0; i < 6; i+=4)
     {
         vm->RAM[vm->$pc+i] = var;
@@ -143,6 +215,7 @@ void load_program(char *filename){
 ///memory access operations [opcode: 5 OPERATIONS]
 void arithmetic_operations()
 {
+    long int result, dividend, divisor;
     switch (opcode)
     {
         case ADD:     ///ADD
@@ -162,22 +235,31 @@ void arithmetic_operations()
             ///a fresh pair of eyes - take em when ever you can find em
 
         case MUL:     ///MUL      implicitly uses register %t8 for result [$t8][$rd] = $Rs * $Rt
-            long result;
+
             result = vm->Registers[operands[0]] * vm->Registers[operands[1]];
             vm->Registers[operands[2]] = result & 0xffffffff;   ///lower word stored to the destination register
             vm->Registers[$t8] = (Word) ((result & 0xffffffff00000000) >> 32);
             break;
 
         case DIV:     ///DIV     implicitly uses the $t8 to retrieve higher word of dividend
-            long dividend = (long) vm->Registers[$t8];  ///copy the content of register $t8 to a long variable (64 bit)
+            dividend = (long int) vm->Registers[$t8];  ///copy the content of register $t8 to a long variable (64 bit)
             dividend = dividend << 32;                  ///shift it left 32 times
-            devidend |= vm->Registers[operands[0]];     ///append the content of the dividend rgister to the long var lower word
-            vm->Registers[operands[2]] = (Word ) (dividend / vm->Registers[operands[1]]); /// devide the logn var by the divisor and put the result in destination register
+            dividend |= vm->Registers[operands[0]];     ///append the content of the dividend rgister to the long var lower word
+            divisor = vm->Registers[operands[1]];
+
+            ////check for division by zero
+            if(divisor == 0)
+            {
+                printf("[-]ERROR::Division by zero occurred at instruction [%x]: %x", (Word ) vm->$pc-4, (Word ) vm->RAM[vm->$pc - 4]);
+                vm->_status_running = 0;
+                return;
+            }
+            vm->Registers[operands[2]] = (Word ) (dividend / divisor); /// devide the logn var by the divisor and put the result in destination register
             break;
 
         default:    ///something must have gone terribly wrong
             ///print error message and quit
-            printf("[-]ERROR::opecode %d doesn't represent a valid arithmetic instruction", opcode);
+            printf("[-]ERROR::opecode %d doesn't represent a valid arithmetic instruction\n", opcode);
             vm->_status_running = 0;
             break;
     }
@@ -185,29 +267,29 @@ void arithmetic_operations()
 
 ///memory access operations [opcode: 3 OPERATIONS]
 void memory_access(){
+    long int effective_addr = 0;
+    int immediate;
     switch (opcode)
     {
 
         case LW:     ///load word
-            long effective_addr = 0;
             effective_addr = operands[0] + operands[2];             ///synthesize the effective address
             vm->Registers[operands[1]] = (Word ) vm->RAM[effective_addr];      ///load the data from memory to the register
             break;
 
         case SW:     ///store word
-            long effective_addr = 0;
             effective_addr = operands[0] + operands[2];             ///synthesize the effective address
             vm->RAM[effective_addr] = vm->Registers[operands[1]];      ///load the data from memory to the register
             break;
 
         case LUI:     ///load upper two bytes with immediate value -> helps create effective mem address
-            int immediate = (operands[2] & 0x0000ffff) << 16;
+            immediate = (operands[2] & 0x0000ffff) << 16;
             vm->Registers[operands[1]] = 0x00;  ///clear previous data
             vm->Registers[operands[1]] |= immediate;
             break;
 
         default:    ///something must have gone sideways
-            printf("[-]ERROR::opecode %d doesn't represent a valid memory access instruction", opcode);
+            printf("[-]ERROR::opecode %d doesn't represent a valid memory access instruction\n", opcode);
             break;
     }
 }
@@ -241,7 +323,7 @@ void logical_operations(){
             vm->Registers[operands[1]] = vm->Registers[operands[0]] >>  operands[2];
             break;
         default:        ///something must have gone sideways
-            printf("[-]ERROR::opecode %d doesn't represent a valid logical instruction", opcode);
+            printf("[-]ERROR::opecode %d doesn't represent a valid logical instruction\n", opcode);
             vm->_status_running = 0;
             break;
 
@@ -250,23 +332,23 @@ void logical_operations(){
 
 
 ///conditional operations [10 operations]
-void conditional_branch_operations()
+void conditional_operations()
 {
     int addr = vm->$pc;
     switch (opcode)
     {
-        case BEQ:       ///BEQ  branch if equal
+        case BEQ:       ///BEQ  branch if equal -->pc relative
             if(vm->Registers[operands[0]] == vm->Registers[operands[1]])
             {
-                addr += operands[2];
+                addr += (operands[2] << 2);
                 vm->$pc = addr;
             }
             break;
 
-        case BNE:       ///BNE  branch if not equal
+        case BNE:       ///BNE  branch if not equal  ->pc relative
             if(vm->Registers[operands[0]] != vm->Registers[operands[1]])
             {
-                addr += operands[2];
+                addr += (operands[2] << 2);
                 vm->$pc = addr;
             }
             break;
@@ -344,13 +426,145 @@ void conditional_branch_operations()
             break;
 
         default:        ///something must have gone sideways
-            printf("[-]ERROR::opecode %d doesn't represent a valid conditional instruction", opcode);
+            printf("[-]ERROR::opecode %d doesn't represent a valid conditional instruction\n", opcode);
             vm->_status_running = 0;
             break;
     }
 
 }
-void unconditional_branch_operations();
+
+///basic unconditional branch operations
+/// 3 operations
+void unconditional_branch_operations(){
+    Word address;
+    switch(opcode)
+    {
+        case J:         ///jump to a certain address
+            address = operands[0] << 2;
+            address &= 0x0ffffff0;   ///clean up the address
+            vm->$pc &= 0xf0000000;  ///clean up the pc for writing
+            vm->$pc |= address;
+            break;
+        case JR:        ///jump to address stored in register
+            address = vm->Registers[operands[0]] << 2;
+            address &= 0x0ffffff0;   ///clean up the address
+            vm->$pc &= 0xf0000000;  ///clean up the pc for writing
+            vm->$pc |= address;
+            break;
+
+        case JAL:       ///jump and link to certain address
+            vm->Registers[$ra] = vm->$pc;
+            address = vm->Registers[operands[0]] << 2;
+            address &= 0x0ffffff0;   ///clean up the address
+            vm->$pc &= 0xf0000000;  ///clean up the pc for writing
+            vm->$pc |= address;
+            break;
+        default:///something must have gone sideways
+            printf("[-]ERROR::opcode %d doesn't represent a valid unconditional branch instruction\n", opcode);
+            vm->_status_running = 0;
+            break;
+    }
+}
+
+
+/// very simple inmplementation of halt function
+///only 1 operation
+void halt()
+{
+    if(opcode == HALT)
+        printf("[+]Halting ....");
+    else{
+        ///something must have gone sideways
+        printf("[-]ERROR::opcode %d doesn't represent a valid halt instruction\n", opcode);
+    }
+    vm->_status_running = 0;
+}
+
+void interrupt(){
+    ///handle instruction based on instruction
+    int counter = 0;
+    Word address;
+    Word Data;
+    char array[4];
+    int end = 0;
+    int i;
+
+
+    counter = vm->Registers[$a1];
+    address = vm->Registers[$a0];
+
+    if(counter < 0)
+    {
+        printf("[-]ERROR::Invalid string length %d\n", counter);
+        vm->_status_running = 0;
+    }
+
+    ///buffer to hold string data for reading
+    char buff[counter];
+    i =  counter;
+    switch(operands[0])
+    {
+        case INT_IO_READ:
+            while(i > 0 && !end)
+            {
+                scanf("%c", &buff[counter-i]);
+                if((buff[counter-i] == (unsigned char) 0x00)  || (buff[counter-i] == '\n') || (buff[counter-i] == '\r'))
+                    end =1;
+                i--;
+            }
+            buff[(counter- i)] = (unsigned char) 0x00;
+
+            ///copy buffer data to memory
+            for(int k = 0; k <= counter; k+=4)
+            {
+                array[0] = buff[0];
+                array[1] = buff[1];
+                array[2] = buff[2];
+                array[3] = buff[3];
+
+                parse_word_from_chars(&Data, array);
+                vm->RAM[address] = Data;
+                address += 4;
+            }
+
+            break;
+        case INT_IO_WRITE:
+            while(i > 0 && !end)
+            {
+                ///parse the word to char sequence and print them out
+                Data = vm->RAM[address];
+                parse_word_to_char(Data, array);
+
+                ///break out if u find null char 0x00
+                for(int j = 0; j < 4; j++)
+                {
+                    ///first byte as char
+                    if(array[j] > 0 && array[j] <= 128)
+                        printf("%c", array[j]);
+                    else if(array[j] == (char) 0x00)
+                        end = 1;
+                }
+                i+= 4;
+            }
+            break;
+        default: ///something must have gone sideways
+            printf("[-]ERROR::interrupt code %d doesn't represent a valid interrupt routine\n", opcode);
+            vm->_status_running = 0;
+            break;
+    }
+}
+
+void parse_word_to_char(Word Data, char *array){
+    array[3] = (unsigned char )Data & 0x000000ff;
+    array[2] = (unsigned char )((Data & 0x0000ff00) >> 8);
+    array[1] = (unsigned char )((Data & 0x00ff0000) >> 16);
+    array[0] = (unsigned char )((Data & 0xff000000) >> 24);
+}
+
+void parse_word_from_chars(Word *Data, char arr[]){
+    *Data = 0x00;
+    *Data = (((((*Data | arr[0]) >> 8) | arr[1]) >> 8 | arr[2]) >> 8) | arr[3];
+}
 
 ///converts a signed half word to signed int
 /// its practically a couple of explicit casting statements

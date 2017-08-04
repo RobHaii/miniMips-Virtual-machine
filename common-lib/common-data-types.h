@@ -73,23 +73,28 @@
 #define LW      15   ///load word from memory
 #define SW      16   ///store word to memory
 #define LUI     17   /// load upper segment of memory with immediate data
-#define SLL     14  ///shif left logical
-#define SRL     15  ///shift right logical
-#define BEQ     16  ///branch if equal
-#define BNE     17  ///branch if not equal
-#define SLTI    20  ///set on less than with immediate operand
-#define SLTIU   21  ///set on less than with immediate operand ( unsigned comparison)
+#define SLL     18  ///shif left logical
+#define SRL     19  ///shift right logical
+#define BEQ     20  ///branch if equal
+#define BNE     21  ///branch if not equal
+#define SLTI    22  ///set on less than with immediate operand
+#define SLTIU   23  ///set on less than with immediate operand ( unsigned comparison)
 #define SGTI    24  ///set on greater than with immediate operand
 #define SGTIU   25  ///set on greater than with immmediate operand (usigned comparison)
-#define JR      27  ///jump to location in register
+#define JR      26  ///jump to location in register
 
 ///J-TYPE
-#define J       26  ///jump
+#define J       27  ///jump
 #define JAL     28  ///jump and link, procedure call, stores the current $pc + 4 to register $ra
 #define HALT    29  /// halt
 #define INT     30  ///handle interupt specified by the INTERUPT_ID
 #define UNDEFINED     31    /// NOT IN USE!!!
 
+
+///Interrupt driven IO
+///interupts codes are listed below
+#define INT_IO_WRITE   0           ///Register $a0 holds the memory address of the string to be written
+#define INT_IO_READ    1           ///Register $a1 provides the number of chars to print/read
 
 
 

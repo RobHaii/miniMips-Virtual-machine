@@ -84,8 +84,16 @@ void parse_args(int );
 void arithmetic_operations();
 void logical_operations();
 void memory_access();
-void conditional_branch_operations();
+void conditional_operations();
 void unconditional_branch_operations();
+void halt();
+void interrupt();
+
+///helper function to help the helper function interrupt :)
+///parses out four character out of a given word and vice versa
+void parse_word_to_char(Word , char *);
+void parse_word_from_chars(Word *, char *);
+
 
 
 ///helper functions to help convert signed immediate values to diffrent data sizes [word -> half word && half word -> word]
