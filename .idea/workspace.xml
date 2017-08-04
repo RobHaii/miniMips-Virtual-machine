@@ -11,11 +11,8 @@
     </ADDITIONAL_GENERATION_ENVIRONMENT>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6a1a9bdf-7074-42aa-b630-1a4fd0a4d78a" name="Default" comment="finished the virtual machine primitive instruction set implementation.  you probably want to make a pull if you wan to do something useful.">
+    <list default="true" id="6a1a9bdf-7074-42aa-b630-1a4fd0a4d78a" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/common-lib/common-data-types.h" afterPath="$PROJECT_DIR$/common-lib/common-data-types.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm/vm.c" afterPath="$PROJECT_DIR$/vm/vm.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm/vm.h" afterPath="$PROJECT_DIR$/vm/vm.h" />
     </list>
     <ignored path="virt-machine.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -167,7 +164,7 @@
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="65" />
+    <option name="x" value="-1855" />
     <option name="y" value="24" />
     <option name="width" value="1855" />
     <option name="height" value="1056" />
@@ -457,7 +454,7 @@
       <workItem from="1501742240750" duration="434000" />
       <workItem from="1501742696279" duration="48000" />
       <workItem from="1501742806131" duration="13282000" />
-      <workItem from="1501828529832" duration="9065000" />
+      <workItem from="1501828529832" duration="9089000" />
     </task>
     <task id="LOCAL-00001" summary="included the opcodes to the common-lib/common-data-types.h file">
       <created>1501679943750</created>
@@ -487,14 +484,21 @@
       <option name="project" value="LOCAL" />
       <updated>1501743718400</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="finished the virtual machine primitive instruction set implementation.  you probably want to make a pull if you wan to do something useful.">
+      <created>1501838603919</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1501838603919</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="41028000" />
+    <option name="totallyTimeSpent" value="41052000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="24" width="1855" height="1056" extended-state="6" />
+    <frame x="-1855" y="24" width="1855" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12668464" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
