@@ -46,12 +46,13 @@ void fetch(){
     ///load the current instruction
     _inst_buffer = vm->RAM[vm->$pc];
 
+    //printf("[Debug]::PC 0x%x\n", vm->$pc);
+
     ///increment the program counter to the next instruction
-    vm->$pc += 4;
+    vm->$pc += 1;
 }
 
-void decode()
-{
+void decode(){
 
     opcode = (_inst_buffer & 0xfc000000) >> 26; ///read the 6 MSBits into an integer value
     if(opcode >= 0 && opcode <= 11)                     ///-- parse R-TYPE
@@ -71,9 +72,8 @@ void decode()
     }
 }
 
-void execute()
-{
-    printf("[Debug]::Executing instruction\n");
+void execute(){
+//    printf("[Debug]::Executing instruction\n");
     switch (opcode)
     {
             ///arithmetic operations (5)
@@ -149,9 +149,9 @@ void execute()
 
 }
 
-void run()
-{
-    printf("[Debug]::Starting machine\n");
+void run(){
+    Word pc = vm->$pc;
+    printf("[+]::Starting machine...\n");
     while(vm->_status_running)
     {
         fetch();
@@ -159,12 +159,14 @@ void run()
         if(vm->_status_running)
             execute();
         else break;
+
+        if(vm->$pc > pc + 40)
+            break;
     }
+    printf(" Done\n");
 }
 
-
-void parse_args(int instruction_type)
-{
+void parse_args(int instruction_type){
     ///decode the instruction operands based on
     /// the recieved instruction type id
     switch (instruction_type){
@@ -181,7 +183,7 @@ void parse_args(int instruction_type)
         case 1:     ///I-TYPE
             operands[0] = (_inst_buffer & 0x03e00000) >> 21;    ///Rs
             operands[1] = (_inst_buffer & 0x001f0000) >> 16;    ///Rt
-            operands[2] = _convert_halfword_to_word(_inst_buffer & 0x000000ff);          ///Immediate -- converts the
+            operands[2] = _convert_halfword_to_word(_inst_buffer & 0x0000ffff);          ///Immediate -- converts the
             break;
         case 2:     ///J-TYPE
             operands[0] = (_inst_buffer & 0x03ffffff);          ///Address
@@ -200,11 +202,41 @@ void load_program(char *filename){
     ///dummy instructions for testing only
     ///write 6 dummy instructions
     ///for testing
-    int var = 0x74000000;
-    for(int i = 0; i < 6; i+=4)
+
+    ///common instructions  - for testing only
+    ///Arithmetic
+    /// -   Halt                0x74000000
+    /// -   Add $t2, $t0, $t1   0x01095000
+    /// -   Sub $t2, $t0, $t1   0x05095000
+    /// -   mul $t2, $t0, $t1   0x09095000
+    /// -   div $t2, $t0, $t1   0x0d095000
+
+    /*{
+        ///print hello program
+        0x44084865,
+        0x39086c6c,
+        0x43880000,
+        0x44086f00,
+        0x43880004,
+        0x001c2000,
+        0x30050006,
+        0x78000000
+    }*/
+
+    //print hello function
+    int instructions[] = {
+            0x44084865,
+            0x39086c6c,
+            0x43880000,
+            0x44086f0a,
+            0x43880001,
+            0x001c2000,
+            0x30050006,
+            0x78000000,
+            0x74000000};  /// halt
+    for(int j = 0; j < 10; j++)
     {
-        vm->RAM[vm->$pc+i] = var;
-        var = var >> 5;
+        vm->RAM[vm->$pc+ j] =  instructions[j];
     }
 }
 
@@ -213,21 +245,24 @@ void load_program(char *filename){
 
 ///basic arithmetic operations : ADD, SUB, ADDI, DIV, MUL
 ///memory access operations [opcode: 5 OPERATIONS]
-void arithmetic_operations()
-{
+void arithmetic_operations(){
     long int result, dividend, divisor;
+//    printf("Opcode: %d Operand1: %d Operand2: %d Operand3: %d\n", opcode, operands[0], operands[1], operands[2]);
     switch (opcode)
     {
         case ADD:     ///ADD
             vm->Registers[operands[2]] = (Word) (vm->Registers[operands[0]] + vm->Registers[operands[1]]); ///ignores overflow by casting result to 32 bit int
+//            printf("[Debug]\tAddition\n");
             break;
 
         case SUB:     ///SUB
             vm->Registers[operands[2]] = (Word) (vm->Registers[operands[0]] + vm->Registers[operands[1]]);
+//            printf("[Debug]\tSubtraction\n");
             break;
 
-        case ANDI:     ///ADDI
+        case ADDI:     ///ADDI
             vm->Registers[operands[1]] = (Word) (vm->Registers[operands[0]] + operands[2]);
+//            printf("[Debug]\tAddition Immediate\n \tResult: %d\n", vm->Registers[operands[1]]);
             break;
 
             ///the next two implemetations are a possible source of bug...
@@ -235,13 +270,14 @@ void arithmetic_operations()
             ///a fresh pair of eyes - take em when ever you can find em
 
         case MUL:     ///MUL      implicitly uses register %t8 for result [$t8][$rd] = $Rs * $Rt
-
+//            printf("[Debug]\tMultiplication\n");
             result = vm->Registers[operands[0]] * vm->Registers[operands[1]];
             vm->Registers[operands[2]] = result & 0xffffffff;   ///lower word stored to the destination register
             vm->Registers[$t8] = (Word) ((result & 0xffffffff00000000) >> 32);
             break;
 
         case DIV:     ///DIV     implicitly uses the $t8 to retrieve higher word of dividend
+//            printf("[Debug]\tDivision\n");
             dividend = (long int) vm->Registers[$t8];  ///copy the content of register $t8 to a long variable (64 bit)
             dividend = dividend << 32;                  ///shift it left 32 times
             dividend |= vm->Registers[operands[0]];     ///append the content of the dividend rgister to the long var lower word
@@ -269,23 +305,31 @@ void arithmetic_operations()
 void memory_access(){
     long int effective_addr = 0;
     int immediate;
+//    printf("[Debug]::Accessing memory\n");
+    int data;
+
+//    printf("[Debug]:: Operand1: %d operand2: %d Operand3: %d", operands[0], operands[1], operands[2]);
     switch (opcode)
     {
 
         case LW:     ///load word
-            effective_addr = operands[0] + operands[2];             ///synthesize the effective address
+            effective_addr = vm->Registers[operands[0]] + (operands[2]);             ///synthesize the effective address
             vm->Registers[operands[1]] = (Word ) vm->RAM[effective_addr];      ///load the data from memory to the register
+//            printf("[Debug]::\tLoading data from memory\n");
             break;
 
         case SW:     ///store word
-            effective_addr = operands[0] + operands[2];             ///synthesize the effective address
-            vm->RAM[effective_addr] = vm->Registers[operands[1]];      ///load the data from memory to the register
+            effective_addr = vm->Registers[operands[0]] + (operands[2]);             ///synthesize the effective address
+            data = vm->Registers[operands[1]];
+            vm->RAM[effective_addr] = data;     ///load the data from memory to the register
+//            printf("[Debug]::\tStoring data to memory [0x%x] %x\n", (unsigned int) effective_addr, vm->RAM[effective_addr]);
             break;
 
         case LUI:     ///load upper two bytes with immediate value -> helps create effective mem address
             immediate = (operands[2] & 0x0000ffff) << 16;
             vm->Registers[operands[1]] = 0x00;  ///clear previous data
             vm->Registers[operands[1]] |= immediate;
+//            printf("[Debug]::\tLoading data to upper half register %x\n", operands[2]);
             break;
 
         default:    ///something must have gone sideways
@@ -332,8 +376,7 @@ void logical_operations(){
 
 
 ///conditional operations [10 operations]
-void conditional_operations()
-{
+void conditional_operations(){
     int addr = vm->$pc;
     switch (opcode)
     {
@@ -469,8 +512,7 @@ void unconditional_branch_operations(){
 
 /// very simple inmplementation of halt function
 ///only 1 operation
-void halt()
-{
+void halt(){
     if(opcode == HALT)
         printf("[+]Halting ....");
     else{
@@ -488,7 +530,7 @@ void interrupt(){
     char array[4];
     int end = 0;
     int i;
-
+//    printf("[Debug]::Interrupt Raised!!\n");
 
     counter = vm->Registers[$a1];
     address = vm->Registers[$a0];
@@ -497,6 +539,7 @@ void interrupt(){
     {
         printf("[-]ERROR::Invalid string length %d\n", counter);
         vm->_status_running = 0;
+        return;
     }
 
     ///buffer to hold string data for reading
@@ -505,6 +548,9 @@ void interrupt(){
     switch(operands[0])
     {
         case INT_IO_READ:
+
+//            printf("[Debug]::Reading from input device...\n");
+//            printf("[Debug]: storage location: [0x%x] \t count: %d", address, counter);
             while(i > 0 && !end)
             {
                 scanf("%c", &buff[counter-i]);
@@ -524,17 +570,19 @@ void interrupt(){
 
                 parse_word_from_chars(&Data, array);
                 vm->RAM[address] = Data;
-                address += 4;
+                address += 1;
             }
 
             break;
         case INT_IO_WRITE:
+//            printf("[Debug]::Writting to output device...\n");
             while(i > 0 && !end)
             {
                 ///parse the word to char sequence and print them out
                 Data = vm->RAM[address];
                 parse_word_to_char(Data, array);
 
+                //
                 ///break out if u find null char 0x00
                 for(int j = 0; j < 4; j++)
                 {
@@ -542,9 +590,13 @@ void interrupt(){
                     if(array[j] > 0 && array[j] <= 128)
                         printf("%c", array[j]);
                     else if(array[j] == (char) 0x00)
+                    {
                         end = 1;
+                    }
+
                 }
-                i+= 4;
+                address += 1;
+                i-= 4;
             }
             break;
         default: ///something must have gone sideways

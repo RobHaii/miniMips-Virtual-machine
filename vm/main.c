@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include "../common-lib/common-utils.h"
 #include "vm.h"
+#include <stdlib.h>
 
 
 int main(int argc, char *argv[])
