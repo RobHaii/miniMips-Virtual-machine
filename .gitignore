@@ -1,2 +1,3 @@
-/.idea		# CLion files
-*.o     #object files
+/.idea
+*.o
+/dev nd test files

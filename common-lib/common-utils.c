@@ -6,7 +6,7 @@
 
 void print_usage(char *prog, char *args)
 {
-    printf("Usage: %s %s", prog, args);
+    printf("Usage: %s %s\n", prog, args);
     exit(1);
 }
 void *checked_malloc(int size)

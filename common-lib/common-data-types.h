@@ -65,16 +65,16 @@
 #define SLTU    9  ///set on less than (unsigned commparision)
 #define SGT     10  ///set on greater than
 #define SGTU    11  ///set on greater than (unsigned comparison)
+#define SLL     12  ///shif left logical
+#define SRL     13  ///shift right logical
 
 ///I-TYPE
-#define ADDI    12   ///addition with immediate value
-#define ANDI    13  ///logical and with immediate data
-#define ORI     14  ///logical or with immediate data
-#define LW      15   ///load word from memory
-#define SW      16   ///store word to memory
-#define LUI     17   /// load upper segment of memory with immediate data
-#define SLL     18  ///shif left logical
-#define SRL     19  ///shift right logical
+#define ADDI    14   ///addition with immediate value
+#define ANDI    15  ///logical and with immediate data
+#define ORI     16  ///logical or with immediate data
+#define LW      17   ///load word from memory
+#define SW      18   ///store word to memory
+#define LUI     19   /// load upper segment of memory with immediate data
 #define BEQ     20  ///branch if equal
 #define BNE     21  ///branch if not equal
 #define SLTI    22  ///set on less than with immediate operand
@@ -94,7 +94,7 @@
 ///Interrupt driven IO
 ///interupts codes are listed below
 #define INT_IO_WRITE   0           ///Register $a0 holds the memory address of the string to be written / or read to
-#define INT_IO_READ    1           ///Register $a1 provides the type of data to be read or write
+#define INT_IO_READ    1           ///Register $a1 provides the type of data (data type : int /char ) to be read or written
 
 
 #define DATA_TYPE_INT   0           ///read/write data as interger
@@ -106,6 +106,16 @@ typedef unsigned char Byte;         //8bits
 typedef unsigned short HalfWord;    //16 bits
 typedef unsigned int Word;          //32bits
 typedef unsigned long DWord;        //64 bits
+
+
+struct Object_Header{
+    int _text_word_len;
+    int _text_start;
+    int _data_start;
+    int _num_data;
+};
+
+typedef struct Object_Header Object_Header;
 
 
 #endif //VIRT_MACHINE_COMMON_DATA_TYPES_H

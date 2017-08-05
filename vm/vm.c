@@ -55,13 +55,13 @@ void fetch(){
 void decode(){
 
     opcode = (_inst_buffer & 0xfc000000) >> 26; ///read the 6 MSBits into an integer value
-    if(opcode >= 0 && opcode <= 11)                     ///-- parse R-TYPE
+    if(opcode >= ADD && opcode <= SRL)                     ///-- parse R-TYPE
     {
         parse_args(R_TYPE);
-    }else if(opcode >= 12 && opcode <= 26)              ///-- parse I-TYPE
+    }else if(opcode >= ADDI && opcode <= JR)              ///-- parse I-TYPE
     {
         parse_args(I_TYPE);
-    }else if(opcode >= 27 && opcode <= 30)              ///-- parse J-TYPE
+    }else if(opcode >= J && opcode <= INT)              ///-- parse J-TYPE
     {
         parse_args(J_TYPE);
     }else{
@@ -149,9 +149,10 @@ void execute(){
 
 }
 
-void run(){
+void run(char *filename){
     Word pc = vm->$pc;
     printf("[+]::Starting machine...\n");
+    load_program(filename);
     while(vm->_status_running)
     {
         fetch();
@@ -199,6 +200,30 @@ void load_program(char *filename){
     ///we dont use virtual memory after all :)
 
 
+    FILE *handle;
+    handle = fopen(filename, "rb+");
+
+    if(!handle)
+    {
+        printf("[ERROR]::No such file [%s]. please provide a valid program file\n", filename);
+        vm->_status_running = 0;
+        return;
+    }
+
+    int prog_size;
+    prog_size = binary_size(handle);
+    printf("Program size: %d Bytes\n", prog_size);
+    Word inst;
+    for(int i = 0; i < prog_size; i++)
+    {
+        fread(&inst, sizeof(Word), 1, handle);
+        vm->RAM[vm->$pc+i] = (Word) inst;
+        inst = 0;
+    }
+
+
+
+
     ///dummy instructions for testing only
     ///write 6 dummy instructions
     ///for testing
@@ -219,25 +244,25 @@ void load_program(char *filename){
         0x44086f00,
         0x43880004,
         0x001c2000,
-        0x30050006,
+        0x30050001,
         0x78000000
     }*/
 
-    //print hello function
-    int instructions[] = {
-            0x44084865,
-            0x39086c6c,
-            0x43880000,
-            0x44086f0a,
-            0x43880001,
-            0x001c2000,
-            0x30050001,
-            0x78000000,
-            0x74000000};  /// halt
-    for(int j = 0; j < 10; j++)
-    {
-        vm->RAM[vm->$pc+ j] =  instructions[j];
-    }
+//    //print hello function
+//    int instructions[] = {
+//            0x44084865,
+//            0x39086c6c,
+//            0x43880000,
+//            0x44086f0a,
+//            0x43880001,
+//            0x001c2000,
+//            0x30050001,
+//            0x78000000,
+//            0x74000000};  /// halt
+//    for(int j = 0; j < 10; j++)
+//    {
+//        vm->RAM[vm->$pc+ j] =  instructions[j];
+//    }
 }
 
 ///helper functions to help the main execute function
@@ -252,17 +277,26 @@ void arithmetic_operations(){
     {
         case ADD:     ///ADD
             vm->Registers[operands[2]] = (Word) (vm->Registers[operands[0]] + vm->Registers[operands[1]]); ///ignores overflow by casting result to 32 bit int
-//            printf("[Debug]\tAddition\n");
+//            printf("[Debug]\tAddition %d + %d = %d\n", vm->Registers[operands[0]],
+//                   vm->Registers[operands[1]],
+//                   vm->Registers[operands[2]]
+//            );
             break;
 
         case SUB:     ///SUB
-            vm->Registers[operands[2]] = (Word) (vm->Registers[operands[0]] + vm->Registers[operands[1]]);
-//            printf("[Debug]\tSubtraction\n");
+            vm->Registers[operands[2]] = (Word) (vm->Registers[operands[0]] - vm->Registers[operands[1]]);
+//            printf("[Debug]\tSubtraction %d - %d = %d\n", vm->Registers[operands[0]],
+//                   vm->Registers[operands[1]],
+//                   vm->Registers[operands[2]]
+//            );
             break;
 
         case ADDI:     ///ADDI
             vm->Registers[operands[1]] = (Word) (vm->Registers[operands[0]] + operands[2]);
-//            printf("[Debug]\tAddition Immediate\n \tResult: %d\n", vm->Registers[operands[1]]);
+//            printf("[Debug]\tAddition Immediate %d + %d = %d\n", vm->Registers[operands[0]],
+//                   (unsigned int) operands[2],
+//                   vm->Registers[operands[1]]
+//            );
             break;
 
             ///the next two implemetations are a possible source of bug...
@@ -270,14 +304,17 @@ void arithmetic_operations(){
             ///a fresh pair of eyes - take em when ever you can find em
 
         case MUL:     ///MUL      implicitly uses register %t8 for result [$t8][$rd] = $Rs * $Rt
-//            printf("[Debug]\tMultiplication\n");
             result = vm->Registers[operands[0]] * vm->Registers[operands[1]];
             vm->Registers[operands[2]] = result & 0xffffffff;   ///lower word stored to the destination register
             vm->Registers[$t8] = (Word) ((result & 0xffffffff00000000) >> 32);
+//            printf("[Debug]\tMultiplication %d * %d = [%d][%d] \n", vm->Registers[operands[0]],
+//                   vm->Registers[operands[1]],
+//                   vm->Registers[$t8],
+//                   vm->Registers[operands[2]]
+//            );
             break;
 
         case DIV:     ///DIV     implicitly uses the $t8 to retrieve higher word of dividend
-//            printf("[Debug]\tDivision\n");
             dividend = (long int) vm->Registers[$t8];  ///copy the content of register $t8 to a long variable (64 bit)
             dividend = dividend << 32;                  ///shift it left 32 times
             dividend |= vm->Registers[operands[0]];     ///append the content of the dividend rgister to the long var lower word
@@ -291,7 +328,13 @@ void arithmetic_operations(){
                 return;
             }
             vm->Registers[operands[2]] = (Word ) (dividend / divisor); /// devide the logn var by the divisor and put the result in destination register
+//            printf("[Debug]\tDivision [%d][%d] / %d = %d \n",vm->Registers[$t8],
+//                   vm->Registers[operands[0]],
+//                   vm->Registers[operands[1]],
+//                   vm->Registers[operands[2]]
+//            );
             break;
+
 
         default:    ///something must have gone terribly wrong
             ///print error message and quit
@@ -361,10 +404,20 @@ void logical_operations(){
             vm->Registers[operands[2]] = vm->Registers[operands[0]] ^ vm->Registers[operands[1]];
             break;
         case SLL:       ///SLL
-            vm->Registers[operands[1]] = vm->Registers[operands[0]] <<  operands[2];
+            vm->Registers[operands[2]] = vm->Registers[operands[1]] <<  operands[3];
+            printf("[Debug]::Shift left 0x%x << %d = 0x%x\n",
+                   vm->Registers[operands[1]],
+                   operands[3],
+                   vm->Registers[operands[2]]
+            );
             break;
         case SRL:       ///SRL
-            vm->Registers[operands[1]] = vm->Registers[operands[0]] >>  operands[2];
+            vm->Registers[operands[2]] = vm->Registers[operands[1]] >>  operands[3];
+            printf("[Debug]::Shift left 0x%x >> %d = 0x%x\n",
+                   vm->Registers[operands[1]],
+                   operands[3],
+                   vm->Registers[operands[2]]
+            );
             break;
         default:        ///something must have gone sideways
             printf("[-]ERROR::opecode %d doesn't represent a valid logical instruction\n", opcode);
@@ -632,4 +685,15 @@ signed int _convert_halfword_to_word(int number){
     ///clever, huh?
     signed short num = (signed short) number;
     return (signed int) num;
+}
+
+
+
+///helper function to help the loader and linker load the progrma file
+int binary_size(FILE *handle){
+    int size;
+    fseek(handle, 0L, SEEK_END);
+    size = ftell(handle);
+    rewind(handle);
+    return size;
 }

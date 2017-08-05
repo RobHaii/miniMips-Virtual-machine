@@ -70,7 +70,7 @@ void decode();
 void execute();
 
 //run the vm
-void run();
+void run(char *);
 
 ///helper function to parse arguments given
 /// the instrucrion type {R | I | J}
@@ -102,5 +102,8 @@ signed int _convert_halfword_to_word(int );
 
 
 
+
+///helper function to help the loader and linker load the progrma file
+int binary_size(FILE *);
 
 #endif //VIRT_MACHINE_VM_H

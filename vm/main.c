@@ -13,17 +13,14 @@ int main(int argc, char *argv[])
 
 
     /// parse the argumets to recieve program filename
-//    if(argc < 2)
-//        print_usage(argv[0], "program-file");
+    if(argc < 2)
+        print_usage(argv[0], "program-file");
 
     ///init the machine
     init_vm();
 
-
-    load_program("program_file.txt");
-
     ///run
-    run();
+    run(argv[1]);
 
     ///dont forget to always deallocate the memory used by the machine
     delete_vm();
