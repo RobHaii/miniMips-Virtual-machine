@@ -93,9 +93,12 @@
 
 ///Interrupt driven IO
 ///interupts codes are listed below
-#define INT_IO_WRITE   0           ///Register $a0 holds the memory address of the string to be written
-#define INT_IO_READ    1           ///Register $a1 provides the number of chars to print/read
+#define INT_IO_WRITE   0           ///Register $a0 holds the memory address of the string to be written / or read to
+#define INT_IO_READ    1           ///Register $a1 provides the type of data to be read or write
 
+
+#define DATA_TYPE_INT   0           ///read/write data as interger
+#define DATA_TYPE_CHAR  1           ///read or write data as a char [sequence]
 
 
 //define the data types

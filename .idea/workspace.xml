@@ -12,7 +12,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6a1a9bdf-7074-42aa-b630-1a4fd0a4d78a" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm/vm" afterPath="$PROJECT_DIR$/vm/vm" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm/vm.o" afterPath="$PROJECT_DIR$/vm/vm.o" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/common-lib/common-data-types.h" afterPath="$PROJECT_DIR$/common-lib/common-data-types.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm/vm.c" afterPath="$PROJECT_DIR$/vm/vm.c" />
     </list>
     <ignored path="virt-machine.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -35,7 +39,7 @@
       <file leaf-file-name="vm.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vm/vm.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="417">
+            <state relative-caret-position="1548">
               <caret line="86" column="30" selection-start-line="86" selection-start-column="30" selection-end-line="86" selection-end-column="30" />
               <folding />
             </state>
@@ -45,8 +49,8 @@
       <file leaf-file-name="common-data-types.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/common-lib/common-data-types.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
-              <caret line="13" column="38" selection-start-line="13" selection-start-column="38" selection-end-line="13" selection-end-column="38" />
+            <state relative-caret-position="441">
+              <caret line="96" column="17" selection-start-line="96" selection-start-column="17" selection-end-line="96" selection-end-column="17" />
               <folding />
             </state>
           </provider>
@@ -85,8 +89,8 @@
       <file leaf-file-name="vm.c" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/vm/vm.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="521">
-              <caret line="323" column="60" selection-start-line="323" selection-start-column="60" selection-end-line="323" selection-end-column="60" />
+            <state relative-caret-position="405">
+              <caret line="611" column="1" selection-start-line="611" selection-start-column="1" selection-end-line="611" selection-end-column="1" />
               <folding>
                 <element signature="e#54#659#0" expanded="false" />
                 <element signature="e#660#824#0" expanded="false" />
@@ -97,14 +101,15 @@
                 <element signature="e#3580#4893#0" expanded="false" />
                 <element signature="e#4894#6016#0" expanded="false" />
                 <element signature="e#6139#9097#0" expanded="false" />
+                <element signature="e#9099#10807#0" expanded="false" />
                 <element signature="e#10809#12302#0" expanded="false" />
                 <element signature="e#12305#15516#0" expanded="false" />
                 <element signature="e#15518#16792#0" expanded="false" />
                 <element signature="e#16795#17118#0" expanded="false" />
-                <element signature="e#17120#19627#0" expanded="false" />
-                <element signature="e#19629#19908#0" expanded="false" />
-                <element signature="e#19910#20061#0" expanded="false" />
-                <element signature="e#20063#20495#0" expanded="false" />
+                <element signature="e#17120#20127#0" expanded="false" />
+                <element signature="e#20128#20407#0" expanded="false" />
+                <element signature="e#20409#20560#0" expanded="false" />
+                <element signature="e#20562#20994#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -153,9 +158,9 @@
         <option value="$PROJECT_DIR$/common-lib/common-utils.c" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/common-lib/common-data-types.h" />
         <option value="$PROJECT_DIR$/vm/vm.h" />
         <option value="$PROJECT_DIR$/vm/main.c" />
+        <option value="$PROJECT_DIR$/common-lib/common-data-types.h" />
         <option value="$PROJECT_DIR$/vm/vm.c" />
       </list>
     </option>
@@ -459,6 +464,7 @@
       <workItem from="1501742696279" duration="48000" />
       <workItem from="1501742806131" duration="13282000" />
       <workItem from="1501828529832" duration="22916000" />
+      <workItem from="1501920768314" duration="3234000" />
     </task>
     <task id="LOCAL-00001" summary="included the opcodes to the common-lib/common-data-types.h file">
       <created>1501679943750</created>
@@ -506,22 +512,22 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="54879000" />
+    <option name="totallyTimeSpent" value="58113000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1855" y="24" width="1855" height="1056" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12668464" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32925585" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32925585" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32858595" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29969418" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29969418" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32925585" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -593,11 +599,78 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="13" />
+      <option name="time" value="16" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/vm/makefile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="11" column="25" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common-lib/common-utils.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="7" column="18" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vm/vm.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#54#659#0" expanded="false" />
+            <element signature="e#660#824#0" expanded="false" />
+            <element signature="e#826#1040#0" expanded="false" />
+            <element signature="e#1042#1674#0" expanded="false" />
+            <element signature="e#1676#3272#0" expanded="false" />
+            <element signature="e#3274#3578#0" expanded="false" />
+            <element signature="e#3580#4893#0" expanded="false" />
+            <element signature="e#4894#6016#0" expanded="false" />
+            <element signature="e#6139#9097#0" expanded="false" />
+            <element signature="e#9099#10807#0" expanded="false" />
+            <element signature="e#10809#12302#0" expanded="false" />
+            <element signature="e#12305#15516#0" expanded="false" />
+            <element signature="e#15518#16792#0" expanded="false" />
+            <element signature="e#16795#17118#0" expanded="false" />
+            <element signature="e#17120#20127#0" expanded="false" />
+            <element signature="e#20128#20407#0" expanded="false" />
+            <element signature="e#20409#20560#0" expanded="false" />
+            <element signature="e#20562#20994#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="1" column="21" selection-start-line="1" selection-start-column="21" selection-end-line="1" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vm/main.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="18" column="23" selection-start-line="18" selection-start-column="23" selection-end-line="18" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/vm/vm.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -652,14 +725,15 @@
             <element signature="e#3580#4893#0" expanded="false" />
             <element signature="e#4894#6016#0" expanded="false" />
             <element signature="e#6139#9097#0" expanded="false" />
+            <element signature="e#9099#10807#0" expanded="false" />
             <element signature="e#10809#12302#0" expanded="false" />
             <element signature="e#12305#15516#0" expanded="false" />
             <element signature="e#15518#16792#0" expanded="false" />
             <element signature="e#16795#17118#0" expanded="false" />
-            <element signature="e#17120#19627#0" expanded="false" />
-            <element signature="e#19629#19908#0" expanded="false" />
-            <element signature="e#19910#20061#0" expanded="false" />
-            <element signature="e#20063#20495#0" expanded="false" />
+            <element signature="e#17120#20127#0" expanded="false" />
+            <element signature="e#20128#20407#0" expanded="false" />
+            <element signature="e#20409#20560#0" expanded="false" />
+            <element signature="e#20562#20994#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -742,14 +816,15 @@
             <element signature="e#3580#4893#0" expanded="false" />
             <element signature="e#4894#6016#0" expanded="false" />
             <element signature="e#6139#9097#0" expanded="false" />
+            <element signature="e#9099#10807#0" expanded="false" />
             <element signature="e#10809#12302#0" expanded="false" />
             <element signature="e#12305#15516#0" expanded="false" />
             <element signature="e#15518#16792#0" expanded="false" />
             <element signature="e#16795#17118#0" expanded="false" />
-            <element signature="e#17120#19627#0" expanded="false" />
-            <element signature="e#19629#19908#0" expanded="false" />
-            <element signature="e#19910#20061#0" expanded="false" />
-            <element signature="e#20063#20495#0" expanded="false" />
+            <element signature="e#17120#20127#0" expanded="false" />
+            <element signature="e#20128#20407#0" expanded="false" />
+            <element signature="e#20409#20560#0" expanded="false" />
+            <element signature="e#20562#20994#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -825,14 +900,15 @@
             <element signature="e#3580#4893#0" expanded="false" />
             <element signature="e#4894#6016#0" expanded="false" />
             <element signature="e#6139#9097#0" expanded="false" />
+            <element signature="e#9099#10807#0" expanded="false" />
             <element signature="e#10809#12302#0" expanded="false" />
             <element signature="e#12305#15516#0" expanded="false" />
             <element signature="e#15518#16792#0" expanded="false" />
             <element signature="e#16795#17118#0" expanded="false" />
-            <element signature="e#17120#19627#0" expanded="false" />
-            <element signature="e#19629#19908#0" expanded="false" />
-            <element signature="e#19910#20061#0" expanded="false" />
-            <element signature="e#20063#20495#0" expanded="false" />
+            <element signature="e#17120#20127#0" expanded="false" />
+            <element signature="e#20128#20407#0" expanded="false" />
+            <element signature="e#20409#20560#0" expanded="false" />
+            <element signature="e#20562#20994#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -899,14 +975,15 @@
             <element signature="e#3580#4893#0" expanded="false" />
             <element signature="e#4894#6016#0" expanded="false" />
             <element signature="e#6139#9097#0" expanded="false" />
+            <element signature="e#9099#10807#0" expanded="false" />
             <element signature="e#10809#12302#0" expanded="false" />
             <element signature="e#12305#15516#0" expanded="false" />
             <element signature="e#15518#16792#0" expanded="false" />
             <element signature="e#16795#17118#0" expanded="false" />
-            <element signature="e#17120#19627#0" expanded="false" />
-            <element signature="e#19629#19908#0" expanded="false" />
-            <element signature="e#19910#20061#0" expanded="false" />
-            <element signature="e#20063#20495#0" expanded="false" />
+            <element signature="e#17120#20127#0" expanded="false" />
+            <element signature="e#20128#20407#0" expanded="false" />
+            <element signature="e#20409#20560#0" expanded="false" />
+            <element signature="e#20562#20994#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -979,7 +1056,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/vm/vm.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="417">
+        <state relative-caret-position="1548">
           <caret line="86" column="30" selection-start-line="86" selection-start-column="30" selection-end-line="86" selection-end-column="30" />
           <folding />
         </state>
@@ -987,16 +1064,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/common-lib/common-data-types.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="13" column="38" selection-start-line="13" selection-start-column="38" selection-end-line="13" selection-end-column="38" />
+        <state relative-caret-position="441">
+          <caret line="96" column="17" selection-start-line="96" selection-start-column="17" selection-end-line="96" selection-end-column="17" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/vm/vm.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="521">
-          <caret line="323" column="60" selection-start-line="323" selection-start-column="60" selection-end-line="323" selection-end-column="60" />
+        <state relative-caret-position="405">
+          <caret line="611" column="1" selection-start-line="611" selection-start-column="1" selection-end-line="611" selection-end-column="1" />
           <folding>
             <element signature="e#54#659#0" expanded="false" />
             <element signature="e#660#824#0" expanded="false" />
@@ -1007,14 +1084,15 @@
             <element signature="e#3580#4893#0" expanded="false" />
             <element signature="e#4894#6016#0" expanded="false" />
             <element signature="e#6139#9097#0" expanded="false" />
+            <element signature="e#9099#10807#0" expanded="false" />
             <element signature="e#10809#12302#0" expanded="false" />
             <element signature="e#12305#15516#0" expanded="false" />
             <element signature="e#15518#16792#0" expanded="false" />
             <element signature="e#16795#17118#0" expanded="false" />
-            <element signature="e#17120#19627#0" expanded="false" />
-            <element signature="e#19629#19908#0" expanded="false" />
-            <element signature="e#19910#20061#0" expanded="false" />
-            <element signature="e#20063#20495#0" expanded="false" />
+            <element signature="e#17120#20127#0" expanded="false" />
+            <element signature="e#20128#20407#0" expanded="false" />
+            <element signature="e#20409#20560#0" expanded="false" />
+            <element signature="e#20562#20994#0" expanded="false" />
           </folding>
         </state>
       </provider>

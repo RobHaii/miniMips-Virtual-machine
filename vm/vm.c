@@ -231,7 +231,7 @@ void load_program(char *filename){
             0x44086f0a,
             0x43880001,
             0x001c2000,
-            0x30050006,
+            0x30050001,
             0x78000000,
             0x74000000};  /// halt
     for(int j = 0; j < 10; j++)
@@ -522,90 +522,94 @@ void halt(){
     vm->_status_running = 0;
 }
 
-void interrupt(){
+void interrupt() {
     ///handle instruction based on instruction
-    int counter = 0;
-    Word address;
+
+    int type;
+    unsigned int address;
     Word Data;
-    char array[4];
-    int end = 0;
-    int i;
-//    printf("[Debug]::Interrupt Raised!!\n");
 
-    counter = vm->Registers[$a1];
+    ///parse the arguments of the interrupt
     address = vm->Registers[$a0];
+    type = vm->Registers[$a1];
 
-    if(counter < 0)
+    if (operands[0] == INT_IO_WRITE)        ///write
     {
-        printf("[-]ERROR::Invalid string length %d\n", counter);
+        if (type == DATA_TYPE_INT)       ///write integer
+        {
+            Data = vm->RAM[address];
+            printf("%d", Data);
+
+        } else if (type == DATA_TYPE_CHAR) {
+            char _word_buffer[4];
+            int flag = 0;           ///flags if null byte has been found
+            while (!flag)
+            {
+                Data = vm->RAM[address];
+                parse_word_to_char(Data, _word_buffer);
+                for (int i = 0; i < 4 && !flag; i++) {
+                    if (_word_buffer[i] != 0x00) {
+                        printf("%c", _word_buffer[i]);
+                    }else{
+                        flag = 1;
+                        break;
+                    }
+                }
+                address++;
+            }
+        } else {      ///Uknown data type
+            printf("[-]ERROR::Invalid data type %d for read and write. {Int: 0 | Char_Seq: 1} \n", opcode);
+            vm->_status_running = 0;
+            return;
+        }
+    } else if (operands[1] == INT_IO_READ)      ///read
+    {
+        if (type == DATA_TYPE_INT)       //read integer
+        {
+            scanf("%d", &Data);
+            vm->RAM[address] = Data;
+
+        } else if (type == DATA_TYPE_CHAR)    ///read char [seq]
+        {
+            char buffer[512];
+            char _word_buffer[4];
+            char d;
+            int flag = 0;       ///flags if end of line has been read
+            for (int i = 0; i < 128 && flag == 0; i++) {
+                for (int j = 0; j < 4 && flag == 0; j++) {
+                    scanf("%c", &d);
+                    _word_buffer[j] = d;
+                    if ((d == '\n') || (d == '\r')) {
+                        flag = 1;
+                        vm->Registers[$v0] = ((i * 4) + (j + 1));     ///return the number of chars read
+                        break;
+                    }
+                }
+                parse_word_from_chars(&Data, _word_buffer);
+                vm->RAM[address + i] = Data;
+
+                ///clean the buffer data
+                _word_buffer[0] = 0x00;
+                _word_buffer[1] = 0x00;
+                _word_buffer[2] = 0x00;
+                _word_buffer[3] = 0x00;
+                Data = 0;
+
+                if (flag == 1) {
+                    break;
+                }
+            }
+        } else {  ///Uknown data type
+            printf("[-]ERROR::Invalid data type %d for read and write. {Int: 0 | Char_Seq: 1} \n", opcode);
+            vm->_status_running = 0;
+            return;
+        }
+    } else {      ////something must have gone sideways
+        printf("[-]ERROR::interrupt code %d doesn't represent a valid interrupt routine\n", opcode);
         vm->_status_running = 0;
         return;
     }
-
-    ///buffer to hold string data for reading
-    char buff[counter];
-    i =  counter;
-    switch(operands[0])
-    {
-        case INT_IO_READ:
-
-//            printf("[Debug]::Reading from input device...\n");
-//            printf("[Debug]: storage location: [0x%x] \t count: %d", address, counter);
-            while(i > 0 && !end)
-            {
-                scanf("%c", &buff[counter-i]);
-                if((buff[counter-i] == (unsigned char) 0x00)  || (buff[counter-i] == '\n') || (buff[counter-i] == '\r'))
-                    end =1;
-                i--;
-            }
-            buff[(counter- i)] = (unsigned char) 0x00;
-
-            ///copy buffer data to memory
-            for(int k = 0; k <= counter; k+=4)
-            {
-                array[0] = buff[0];
-                array[1] = buff[1];
-                array[2] = buff[2];
-                array[3] = buff[3];
-
-                parse_word_from_chars(&Data, array);
-                vm->RAM[address] = Data;
-                address += 1;
-            }
-
-            break;
-        case INT_IO_WRITE:
-//            printf("[Debug]::Writting to output device...\n");
-            while(i > 0 && !end)
-            {
-                ///parse the word to char sequence and print them out
-                Data = vm->RAM[address];
-                parse_word_to_char(Data, array);
-
-                //
-                ///break out if u find null char 0x00
-                for(int j = 0; j < 4; j++)
-                {
-                    ///first byte as char
-                    if(array[j] > 0 && array[j] <= 128)
-                        printf("%c", array[j]);
-                    else if(array[j] == (char) 0x00)
-                    {
-                        end = 1;
-                    }
-
-                }
-                address += 1;
-                i-= 4;
-            }
-            break;
-        default: ///something must have gone sideways
-            printf("[-]ERROR::interrupt code %d doesn't represent a valid interrupt routine\n", opcode);
-            vm->_status_running = 0;
-            break;
-    }
 }
-
 void parse_word_to_char(Word Data, char *array){
     array[3] = (unsigned char )Data & 0x000000ff;
     array[2] = (unsigned char )((Data & 0x0000ff00) >> 8);
