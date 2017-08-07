@@ -1,3 +1,5 @@
 /.idea
 *.o
 /dev nd test files
+*~
+/emacs log files
