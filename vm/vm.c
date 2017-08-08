@@ -153,6 +153,7 @@ void run(char *filename){
     Word pc = vm->$pc;
     printf("[+]::Starting machine...\n");
     load_program(filename);
+    int counter = 0;
     while(vm->_status_running)
     {
         fetch();
@@ -160,8 +161,8 @@ void run(char *filename){
         if(vm->_status_running)
             execute();
         else break;
-
-        if(vm->$pc > pc + 40)
+        counter++;
+        if(counter > 40)
             break;
     }
     printf(" Done\n");
@@ -400,16 +401,18 @@ void conditional_operations(){
         case BEQ:       ///BEQ  branch if equal -->pc relative
             if(vm->Registers[operands[0]] == vm->Registers[operands[1]])
             {
-                addr += (operands[2] << 2);
+                addr += (operands[2]);
                 vm->$pc = addr;
+                if(DEBUG) printf("[DEBUG]::Branching!!");
             }
             break;
 
         case BNE:       ///BNE  branch if not equal  ->pc relative
             if(vm->Registers[operands[0]] != vm->Registers[operands[1]])
             {
-                addr += (operands[2] << 2);
+                addr += (operands[2]);
                 vm->$pc = addr;
+                if(DEBUG) printf("[DEBUG]::Branching!!");
             }
             break;
 
@@ -490,7 +493,6 @@ void conditional_operations(){
             vm->_status_running = 0;
             break;
     }
-
 }
 
 ///basic unconditional branch operations
@@ -500,24 +502,21 @@ void unconditional_branch_operations(){
     switch(opcode)
     {
         case J:         ///jump to a certain address
-            address = operands[0] << 2;
-            address &= 0x0ffffff0;   ///clean up the address
-            vm->$pc &= 0xf0000000;  ///clean up the pc for writing
-            vm->$pc |= address;
+            address =  vm->$pc + _convert_halfword_to_word(operands[0]);
+            if(DEBUG) printf("[DEBUG]::Jumping to memory address [0x%x] (%d) from [0x%x]", address, operands[0], _convert_halfword_to_word(operands[0]));
+            vm->$pc = address;
             break;
         case JR:        ///jump to address stored in register
-            address = vm->Registers[operands[0]] << 2;
-            address &= 0x0ffffff0;   ///clean up the address
-            vm->$pc &= 0xf0000000;  ///clean up the pc for writing
-            vm->$pc |= address;
+            address = vm->Registers[operands[0]];
+            if(DEBUG) printf("[DEBUG]::Jumping to address 0x%x\n", address);
+            vm->$pc = address;
             break;
 
         case JAL:       ///jump and link to certain address
             vm->Registers[$ra] = vm->$pc;
-            address = vm->Registers[operands[0]] << 2;
-            address &= 0x0ffffff0;   ///clean up the address
-            vm->$pc &= 0xf0000000;  ///clean up the pc for writing
-            vm->$pc |= address;
+            address = _convert_halfword_to_word(operands[0]) + vm->$pc;
+            if(DEBUG) printf("[DEBUG]::Jumping to memory address [0x%x] (%d) from [0x%x]", address, operands[0], vm->$pc );
+            vm->$pc = address;
             break;
         default:///something must have gone sideways
             printf("[-]ERROR::opcode %d doesn't represent a valid unconditional branch instruction\n", opcode);
@@ -549,6 +548,8 @@ void interrupt() {
     ///parse the arguments of the interrupt
     address = vm->Registers[$a0];
     type = vm->Registers[$a1];
+
+    if(DEBUG) printf("address [0x%x]\ttype: %d\n", address, type);
 
     if(DEBUG)
     {
@@ -586,6 +587,7 @@ void interrupt() {
         }
     } else if (operands[0] == INT_IO_READ)      ///read
     {
+        if(DEBUG) printf("[DEBUG]::Reading from terminal... type: %d\n", type);
         if (type == DATA_TYPE_INT)       //read integer
         {
             scanf("%d", &Data);
@@ -593,6 +595,7 @@ void interrupt() {
 
         } else if (type == DATA_TYPE_CHAR)    ///read char [seq]
         {
+            if(DEBUG) printf("[DEBUG]::REading char string...");
             char buffer[512];
             char _word_buffer[4];
             char d;
@@ -606,10 +609,12 @@ void interrupt() {
                         vm->Registers[$v0] = ((i * 4) + (j + 1));     ///return the number of chars read
                         break;
                     }
-                }
-                parse_word_from_chars(&Data, _word_buffer);
-                vm->RAM[address + i] = Data;
 
+                }
+                if(DEBUG) printf("buffered: %s \tStored to: [0x%x] \n", _word_buffer, address+i);
+                parse_word_from_chars(&Data, _word_buffer);
+                if(DEBUG) printf("[DEBUG]:: Parsed char sequence.. 0x%x", Data);
+                vm->RAM[address + i] = Data;
                 ///clean the buffer data
                 _word_buffer[0] = 0x00;
                 _word_buffer[1] = 0x00;
@@ -621,6 +626,7 @@ void interrupt() {
                     break;
                 }
             }
+            if(DEBUG) printf("[DEBUG]::Data in memory [0x%x] 0x%x\n", address, Data);
         } else {  ///Uknown data type
             printf("[-]ERROR::Invalid data type %d for read and write. {Int: 0 | Char_Seq: 1} \n", opcode);
             vm->_status_running = 0;
@@ -641,7 +647,7 @@ void parse_word_to_char(Word Data, char *array){
 
 void parse_word_from_chars(Word *Data, char arr[]){
     *Data = 0x00;
-    *Data = (((((*Data | arr[0]) >> 8) | arr[1]) >> 8 | arr[2]) >> 8) | arr[3];
+    *Data = (((((*Data | arr[0]) << 8) | arr[1]) << 8 | arr[2]) << 8) | arr[3];
 }
 
 ///converts a signed half word to signed int
@@ -655,7 +661,6 @@ signed int _convert_halfword_to_word(int number){
     signed short num = (signed short) number;
     return (signed int) num;
 }
-
 
 ///helper function to help the loader and linker load the progrma file
 int binary_size(FILE *handle){
