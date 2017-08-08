@@ -5,6 +5,8 @@
 #ifndef VIRT_MACHINE_VM_H
 #define VIRT_MACHINE_VM_H
 
+#define DEBUG 0
+
 #define RAM_SIZE 64*1024*1024   //64Mb
 
 ///memory lay out assumed
