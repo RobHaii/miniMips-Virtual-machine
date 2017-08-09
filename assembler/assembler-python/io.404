@@ -1,0 +1,10 @@
+#this program demonstrates basic io
+
+#read input
+add $a0, $gp, 1
+addi $a1, $zero, 1
+int 1
+
+#echo back input
+int 0
+halt

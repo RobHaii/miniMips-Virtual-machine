@@ -1,0 +1,14 @@
+.string rob = "Hello world, from my virtual machine! 123 - . ? '"
+.string nate = "Hello every one"
+.entry main
+
+#prints the text defined above
+main:
+        addi $a0, $gp, nate
+        addi $a1, $zero, 1
+        int 0
+
+        addi $a0, $gp, rob
+        addi $a1, $zero, 1
+        int 0
+        halt

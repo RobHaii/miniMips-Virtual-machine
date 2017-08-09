@@ -1,0 +1,24 @@
+#this program prints 'H' Five times
+
+#load the character 'Hi!\n' to register
+lui $t0, 0x4869
+ori $t0, $t0, 0x210a
+
+#store the char in memory
+sw $t0, 0($gp)
+
+#set the interupt flags and neccesary data
+add $a0, $zero, $gp
+addi $a1, $zero, 1
+
+addi $t1, $zero, 5
+
+loop:
+    int 0
+    addi $t1, $t1, -1
+    beq $t1, $zero, end
+    j loop
+
+#end destination
+end:
+halt

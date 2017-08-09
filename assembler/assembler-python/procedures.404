@@ -1,0 +1,56 @@
+#this program demonstarted procedures on our little vm
+
+.string prompt = "Enter a number: "
+.string prompt2 = "Enter another number: "
+.string text = "The result is: "
+
+.entry main
+
+#this procedure adds two numbers given in $a0 and $a1 and return result in $v0
+add:  add $v0, $a0, $a1
+      jr $ra
+
+main:
+    #print prompt one
+    addi $a0, $gp, prompt
+    addi $a1, $zero, 1
+    int 0
+
+    #read number one
+    addi $a0, $gp, -1
+    add $a1, $zero, $zero
+    int 1
+
+    #print prompt two
+    addi $a0, $gp, prompt2
+    addi $a1, $zero, 1
+    int 0
+
+    #read number two
+    addi $a0, $gp, -2
+    add $a1, $zero, $zero
+    int 1
+
+    #load the user data to register
+    lw $a0, -2($gp)
+    lw $a1, -1($gp)
+
+    #call add procedure
+    jal add
+
+    #store the result
+    sw $v0, -3($gp)
+
+
+    #print result prompt
+    addi $a0, $gp, text
+    addi $a1, $zero, 1
+    int 0
+
+    #show the result
+    addi $a0, $gp, -3
+    addi $a1, $zero, 0
+    int 0
+
+    halt
+

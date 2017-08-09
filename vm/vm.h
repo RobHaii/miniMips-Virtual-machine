@@ -42,6 +42,7 @@ typedef struct Vitrual_Machine VM;
 VM *vm;
 
 
+
 ///buffers to hold data and instruction
 Word _inst_buffer;
 

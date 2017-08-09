@@ -107,15 +107,15 @@ typedef unsigned short HalfWord;    //16 bits
 typedef unsigned int Word;          //32bits
 typedef unsigned long DWord;        //64 bits
 
+///object file header structure
+struct Obj_Header{
+    int text_size;
+    int text_start;
+    int entry_point;
+    int data_start;
+}__attribute__((__packed__));
 
-struct Object_Header{
-    int _text_word_len;
-    int _text_start;
-    int _data_start;
-    int _num_data;
-};
-
-typedef struct Object_Header Object_Header;
+typedef struct Obj_Header O_Header;
 
 
 #endif //VIRT_MACHINE_COMMON_DATA_TYPES_H

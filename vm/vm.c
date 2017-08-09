@@ -211,17 +211,52 @@ void load_program(char *filename){
         return;
     }
 
+
+    O_Header header;
     int prog_size;
     prog_size = binary_size(handle);
     printf("Program size: %d Bytes\n", prog_size);
+    fread(&header, sizeof(O_Header), 1, handle);
+    printf("Header => Text-size : %d \n\tText-start: %d\n \tEntry-point: %d\n\tData-start: %d\n", header.text_size, header.text_start, header.entry_point, header.data_start);
+
+
+
+//    Word inst;
+//    for(int i = 0; i < prog_size; i++)
+//    {
+//        fread(&inst, sizeof(Word), 1, handle);
+//        vm->RAM[vm->$pc+i] = (Word) inst;
+//        inst = 0;
+//    }
+
+
+    /// load the text segment
     Word inst;
-    for(int i = 0; i < prog_size; i++)
+    for(int i = 0; i < header.text_size; i++)
     {
         fread(&inst, sizeof(Word), 1, handle);
         vm->RAM[vm->$pc+i] = (Word) inst;
+        if(DEBUG) printf("%d [0x%x] inst: 0x%x\n",i,  vm->$pc+i, vm->RAM[vm->$pc+i]);
         inst = 0;
     }
 
+    ///load the Data segment
+    int data_size = prog_size - (sizeof(O_Header) + header.text_size);
+    Word d;
+    for(int i = 0; i < data_size; i++)
+    {
+        fread(&d, sizeof(Word), 1, handle);
+        vm->RAM[vm->Registers[$gp] + i] = (Word) d;
+//        if(DEBUG) printf("%d [0x%x] inst: 0x%x\n",i, vm->);
+        d = 0;
+    }
+
+    Word start = vm->$pc + header.entry_point;
+    vm->$pc = start;
+    if(DEBUG) printf("PC: 0x%x\n", start);
+    if(DEBUG) printf("code-begin: [0x0%x] 0x%x", vm->$pc, vm->RAM[start]);
+    if(DEBUG) printf("Data-begin: 0x%x\n", $gp);
+//    vm->_status_running = 0;
 }
 
 ///helper functions to help the main execute function
