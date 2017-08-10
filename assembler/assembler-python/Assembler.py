@@ -11,6 +11,10 @@ parser.add_argument('-o', '--output', type=str)
 parser.add_argument('-i', "--inputfile", type=str)
 arguments = parser.parse_args()
 
+if(arguments.output is None or arguments.inputfile is None):
+    print "Usage: ./Assembler -i <inputfile.404> -o <outputfile.o>"
+    exit()
+
 R_TYPE = 0
 I_TYPE = 1
 J_TYPE = 2
