@@ -169,3 +169,122 @@ figure below demostrated the three schemes:
 | 28        | JAL                   | jump and link eg:``` jal end ``` => save the return address in register $ra (31) and jump to address represented by the label |       
 | 29        | HALT                  | terminate program execution and halt eg:```halt ``` |       
 | 31        | UNDEFINED             |        [not used yet... perhaps we can make it a NOP operation     |
+
+##
+      
+      
+##
+
+## 3. Virtual Machine Description
+
+here is a c code defination of our virtual machine. it has a register file, a program counter that is not in the register file, Random Access Memory (RAM) and a status flag that indicates if the machine ON/OFF.
+
+```C
+
+	struct Vitrual_Machine{
+    Word $pc;
+    Word *Registers;
+    Word *RAM;
+    int _status_running;
+};
+typedef struct Vitrual_Machine VM;
+
+```
+The Data type 'Word' is defined in the common-libs.h file as:
+
+```c
+	//define the data types
+	typedef unsigned char Byte;         //8bits
+	typedef unsigned short HalfWord;    //16 bits
+  ->typedef unsigned int Word;          //32bits
+	typedef unsigned long DWord;        //64 bits
+
+```
+
+The virtual machine runs on an infinite loop of Fetch, Decode and Execute operations with the status flag  *_status_running* used as a flag for machine termination (Halting). code segment below demonstrates this:
+
+```C
+	...
+	load_program(filename);		//load the program in binary file given
+    while(vm->_status_running)
+    {
+        fetch();
+        decode();
+        if(vm->_status_running)		//see if decode instruction went well... decode error is 'FATAL'
+            execute();
+        else break;
+    }
+```
+
+### Memory layout
+
+we used a flat memory model with three segments: Reserved (for boot image), Text area and Stack area. image below describes the memroy scheme used.
+```
+/*
++-------------------+
+|    Reserved       |
++-------------------+   <- 0x0040 $pc
+|       Text        |
++-------------------+
+|   Static Data     |   <- 0x10000 $gp
++-------------------+
+|                   |
+|   Dynamic data    |
+|                   |
+|                   |
+|                   |
+|                   |
+|                   |
+|   Stack area      |
++-------------------+   <- $ffff    $fp, $sp
+ */
+```
+
+
+### Object file format
+
+We designed our own object file format with minimal features to support all our primitive instructions. the figure below demonstarates the object format we used:
+
+```c
++---------------------------+
+|    Header (4 Words)		|
++---------------------------+	<---- text_start
+|       Text Section   		|
+|        					|	<---- entry_point
+|                   		|
+|   						|
+|                   		|
+|                   		|
++---------------------------+	<--- data_start
+|         Data Section 		|	
+|                   		|
+|              		  		|
++---------------------------+  
+*/
+
+//object header structure
+struct Obj_Header{
+    int text_size;			//size of the text area
+    int text_start;			//begining of the text section	--ironiclly this is always 4 (Fifth word)
+    int entry_point;		//entry point for the executable -- location of the 'main'
+    int data_start;			//starting point of data section
+}__attribute__((__packed__));
+
+typedef struct Obj_Header O_Header;
+
+```
+
+* _The program loder and linker copies the entire text section to memory area begining at the current value of PC. it then loads the Data section to the static data section of the memory just below the current value of global pointer ($gp)_
+
+##
+
+## 4. Assembler 
+
+We have developed two assemblers in python and ruby. These assemblers generate an object file for assembly files given as argument. 
+
+usage (for assembler in python):
+```
+	./Assembler.py -i <assemblyfile.404> -o <output-object.o>
+```
+##
+_The Assembler doesnt really care if the file format of the assembly file really is *.404 or not. it will work as long as you give it a valid ASCII file. but stick to giving it a file with .404 file format.... show respect to the deelopers and the terms of agreement._
