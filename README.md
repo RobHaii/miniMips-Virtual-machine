@@ -133,7 +133,7 @@ figure below demostrated the three schemes:
 ##### *** Here is the complete list of instructions and their encoding:
 | opcode    |    Mnemonics          |   Description                         |    
 | --------- | --------------------- | ------------------------------------- |
-|           |         R-Type        |                                      					|       
+|           |         **R-Type**        |                                      					|       
 | 0         | ADD                   |	Addition 	eg. ``` add $t0, $t1, $t2```	 => $t0 = $t1 + $t2 |           
 | 1         | SUB                   |   subtraction eg. ``` sub $t0, $t1, $t2``` 	=> $t0 = $t1 - $t2  	|       
 | 2         | MUL                   |   Multiplication eg. ``` mul $t0, $t1, $t2```	 => [$t8][$t0] = $t1 * $t2  	|       
@@ -149,7 +149,7 @@ figure below demostrated the three schemes:
 | 12        | SLL                   | shift left logical   eg: ``` sll $t0, $t1, #shamt (shift ammount)```  	=> $t0 = $t1 << #shamt          |      
 | 13        | SRL                   | shift right logical   eg: ``` srl $t0, $t1, #shamt (shift ammount)```  	=> $t0 = $t1 >> #shamt           |  
 |			|						|										|
-|           |       I-TYPE                                                  |       
+|           |       **I-TYPE**                                                  |       
 | 14        | ADDI                  |  Addition with immediate data	eg: ``` addi $t0, $t1, #Immediate```	 => $t0 = $t1 + #Immediate |      
 | 15        | ANDI                  | AND with immediate MASK	eg: ``` andi $t0, $t1, #Immediate```	 => $t0 = $t1 & #mask |      
 | 16        | ORI                   | OR with immediate MASK	eg: ``` ori $t0, $t1, #Immediate```	 => $t0 = $t1 | #mask |        
@@ -164,7 +164,7 @@ figure below demostrated the three schemes:
 | 25        | SGTIU                 |set greater than Immediate (unsigned comparison) eg: ``` slti $t0, $t1, #immediate``` 	=> $t0 = 1 iff $t1 > #immediate, else $t0 = 0  	|       
 | 26        | JR                    | Jump to address in register eg: ``` jr $t0``` => PC <- $t0  |       
 |           |                       |                                       |       
-|           |   J-TYPE                                                      |       
+|           |   **J-TYPE**                                                      |       
 | 27        | J                     | jump to label eg:``` j end ``` => jump to address represented by the label |       
 | 28        | JAL                   | jump and link eg:``` jal end ``` => save the return address in register $ra (31) and jump to address represented by the label |       
 | 29        | HALT                  | terminate program execution and halt eg:```halt ``` |       
