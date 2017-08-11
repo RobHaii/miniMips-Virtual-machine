@@ -93,6 +93,7 @@ figure below demostrated the three schemes:
     	PC relative offset: all branches are PC realtive. remeber pointer 5??
         
  ##### *** Here is the complete list of resgiters and their encoding:
+ 
 |Regiter name	| id			|
 | --------------|:-------------:|
 | $zero			| 0 			|  
@@ -168,7 +169,3 @@ figure below demostrated the three schemes:
 | 28        | JAL                   |                                       |       
 | 29        | HALT                  |                                       |       
 | 31        | UNDEFINED             |                                       |
-      
-      
-
-
