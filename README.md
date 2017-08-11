@@ -134,38 +134,38 @@ figure below demostrated the three schemes:
 | opcode    |    Mnemonics          |   Description                         |    
 | --------- | --------------------- | ------------------------------------- |
 |           |         R-Type        |                                      					|       
-| 0         | ADD                   |	Addition 	eg. ``` add $t0, $t1, $t2``` => $t0 = $t1 + $t2 |           
-| 1         | SUB                   |   subtraction eg. ``` sub $t0, $t1, $t2``` => $t0 = $t1 - $t2  	|       
-| 2         | MUL                   |   Multiplication eg. ``` mul $t0, $t1, $t2``` => [$t8][$t0] = $t1 * $t2  	|       
-| 3         | DIV                   |   devision eg. ``` div $t0, $t1, $t2``` => $t0 = [$t8] [$t1] / $t2  	|       
-| 4         | AND                   |   logical and eg. ``` and $t0, $t1, $t2``` => $t0 = $t1 & $t2  	|       
-| 5         | OR                    |   logical or eg. ``` and $t0, $t1, $t2``` => $t0 = $t1 | $t2  	|      
-| 6         | NOR                   |  logical nor eg. ``` and $t0, $t1, $t2``` => $t0 = ~($t1 | $t2)  	|      
-| 7         | XOR                   |   logical xor eg. ``` and $t0, $t1, $t2``` => $t0 = $t1 ^ $t2  	|      
-| 8         | SLT                   |  set less than eg. ``` slt $t0, $t1, $t2``` => $t0 = 1 iff $t1 < $t2, else $t0 = 0  	|      
-| 9         | SLTU                  |                                       |     
-| 10        | SGT                   |                                       |      
-| 11        | SGTU                  |                                       |      
-| 12        | SLL                   |                                       |      
-| 13        | SRL                   |                                       |  
+| 0         | ADD                   |	Addition 	eg. ``` add $t0, $t1, $t2```	 => $t0 = $t1 + $t2 |           
+| 1         | SUB                   |   subtraction eg. ``` sub $t0, $t1, $t2``` 	=> $t0 = $t1 - $t2  	|       
+| 2         | MUL                   |   Multiplication eg. ``` mul $t0, $t1, $t2```	 => [$t8][$t0] = $t1 * $t2  	|       
+| 3         | DIV                   |   devision eg. ``` div $t0, $t1, $t2``` 	=> $t0 = [$t8] [$t1] / $t2  	|       
+| 4         | AND                   |   logical and eg. ``` and $t0, $t1, $t2```	 => $t0 = $t1 & $t2  	|       
+| 5         | OR                    |   logical or eg. ``` and $t0, $t1, $t2``` 	=> $t0 = $t1 | $t2  	|      
+| 6         | NOR                   |  	logical nor eg. ``` and $t0, $t1, $t2``` 	=> $t0 = ~($t1 | $t2)  	|      
+| 7         | XOR                   |   logical xor eg. ``` and $t0, $t1, $t2``` 	=> $t0 = $t1 ^ $t2  	|      
+| 8         | SLT                   |  	set less than (signed comparison) eg: ``` slt $t0, $t1, $t2``` 	=> $t0 = 1 iff $t1 < $t2, else $t0 = 0  	|      
+| 9         | SLTU                  | set less than (unsigned comparison) eg: ``` slt $t0, $t1, $t2``` 	=> $t0 = 1 iff $t1 < $t2, else $t0 = 0  	|     
+| 10        | SGT                   | set greater than (signed comparison) eg: ``` slt $t0, $t1, $t2``` 	=> $t0 = 1 iff $t1 > $t2, else $t0 = 0  	|      
+| 11        | SGTU                  | set greater than (unsigned comparison) eg: ``` slt $t0, $t1, $t2``` 	=> $t0 = 1 iff $t1 > $t2, else $t0 = 0  	|      
+| 12        | SLL                   | shift left logical   eg: ``` sll $t0, $t1, #shamt (shift ammount)```  	=> $t0 = $t1 << #shamt          |      
+| 13        | SRL                   | shift right logical   eg: ``` srl $t0, $t1, #shamt (shift ammount)```  	=> $t0 = $t1 >> #shamt           |  
 |			|						|										|
 |           |       I-TYPE                                                  |       
-| 14        | ADDI                  |                                       |      
-| 15        | ANDI                  |                                       |      
-| 16        | ORI                   |                                       |       
-| 17        | LW                    |                                       |       
-| 18        | SW                    |                                       |       
-| 19        | LUI                   |                                       |       
-| 20        | BEQ                   |                                       |       
-| 21        | BNE                   |                                       |       
-| 22        | SLTI                  |                                       |       
-| 23        | SLTIU                 |                                       |       
-| 24        | SGTI                  |                                       |       
-| 25        | SGTIU                 |                                       |       
-| 26        | JR                    |                                       |       
+| 14        | ADDI                  |  Addition with immediate data	eg: ``` addi $t0, $t1, #Immediate```	 => $t0 = $t1 + #Immediate |      
+| 15        | ANDI                  | AND with immediate MASK	eg: ``` andi $t0, $t1, #Immediate```	 => $t0 = $t1 & #mask |      
+| 16        | ORI                   | OR with immediate MASK	eg: ``` ori $t0, $t1, #Immediate```	 => $t0 = $t1 | #mask |        
+| 17        | LW                    | load word rto register from memory address (offset + reference address in register) eg:  ``` lw $t0, 1($gp) ``` => [$t0] <- memory[[$gp]+1] |       
+| 18        | SW                    |store word from regsiter to memory address (offset + reference address in register) eg:  ``` lw $t0, 1($gp) ``` => [$t0] -> memory[register[$gp]+1]|       
+| 19        | LUI                   |load half word to upper nibble of register with immediate value (offset + reference address in register) eg:  ``` lui $t0, #immediate ``` => $t0 = (#immediate << 16) 0xff00        
+| 20        | BEQ                   | Branch if equal eg:   ``` beq $t0, $t1, label ``` => jump to label if $t0 == $t1 |       
+| 21        | BNE                   | Branch if not equal eg:   ``` bne $t0, $t1, label ``` => jump to label if $t0 != $t1  |       
+| 22        | SLTI                  | set less than Immediate (signed comparison) eg: ``` slti $t0, $t1, #immediate``` 	=> $t0 = 1 iff $t1 < #immediate, else $t0 = 0  	|       
+| 23        | SLTIU                 |set less than Immediate (unsigned comparison) eg: ``` slti $t0, $t1, #immediate``` 	=> $t0 = 1 iff $t1 < #immediate, else $t0 = 0  	|       
+| 24        | SGTI                  | set greater than Immediate (signed comparison) eg: ``` slti $t0, $t1, #immediate``` 	=> $t0 = 1 iff $t1 > #immediate, else $t0 = 0   |       
+| 25        | SGTIU                 |set greater than Immediate (unsigned comparison) eg: ``` slti $t0, $t1, #immediate``` 	=> $t0 = 1 iff $t1 > #immediate, else $t0 = 0  	|       
+| 26        | JR                    | Jump to address in register eg: ``` jr $t0``` => PC <- $t0  |       
 |           |                       |                                       |       
 |           |   J-TYPE                                                      |       
-| 27        | J                     |                                       |       
-| 28        | JAL                   |                                       |       
-| 29        | HALT                  |                                       |       
-| 31        | UNDEFINED             |                                       |
+| 27        | J                     | jump to label eg:``` j end ``` => jump to address represented by the label |       
+| 28        | JAL                   | jump and link eg:``` jal end ``` => save the return address in register $ra (31) and jump to address represented by the label |       
+| 29        | HALT                  | terminate program execution and halt eg:```halt ``` |       
+| 31        | UNDEFINED             |        [not used yet... perhaps we can make it a NOP operation     |
