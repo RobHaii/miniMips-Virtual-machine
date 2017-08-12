@@ -179,16 +179,16 @@ figure below demostrated the three schemes:
 
 here is a c code defination of our virtual machine. it has a register file, a program counter that is not in the register file, Random Access Memory (RAM) and a status flag that indicates if the machine ON/OFF.
 
-```C
+```c
 
-	struct Vitrual_Machine{
+struct Vitrual_Machine{
     Word $pc;
     Word *Registers;
     Word *RAM;
     int _status_running;
 };
-typedef struct Vitrual_Machine VM;
 
+typedef struct Vitrual_Machine VM;
 ```
 The Data type 'Word' is defined in the common-libs.h file as:
 
@@ -220,7 +220,6 @@ The virtual machine runs on an infinite loop of Fetch, Decode and Execute operat
 
 we used a flat memory model with three segments: Reserved (for boot image), Text area and Stack area. image below describes the memroy scheme used.
 ```
-/*
 +-------------------+
 |    Reserved       |
 +-------------------+   <- 0x0040 $pc
@@ -237,7 +236,6 @@ we used a flat memory model with three segments: Reserved (for boot image), Text
 |                   |
 |   Stack area      |
 +-------------------+   <- $ffff    $fp, $sp
- */
 ```
 
 
@@ -283,8 +281,8 @@ typedef struct Obj_Header O_Header;
 We have developed two assemblers in python and ruby. These assemblers generate an object file for assembly files given as argument. 
 
 usage (for assembler in python):
-```
-	./Assembler.py -i <assemblyfile.404> -o <output-object.o>
+```bash
+./Assembler.py -i <assemblyfile.404> -o <output-object.o>
 ```
 ##
 _The Assembler doesnt really care if the file format of the assembly file really is *.404 or not. it will work as long as you give it a valid ASCII file. but stick to giving it a file with .404 file format.... show respect to the deelopers and the terms of agreement._
