@@ -225,7 +225,7 @@ we used a flat memory model with three segments: Reserved (for boot image), Text
 +-------------------+   <- 0x0040 $pc
 |       Text        |
 +-------------------+
-|   Static Data     |   <- 0x10000 $gp
+|   Static Data     |   <- 0x1000 $gp
 +-------------------+
 |                   |
 |   Dynamic data    |
@@ -235,7 +235,7 @@ we used a flat memory model with three segments: Reserved (for boot image), Text
 |                   |
 |                   |
 |   Stack area      |
-+-------------------+   <- $ffff    $fp, $sp
++-------------------+   <- 0xffff  $fp, $sp
 ```
 
 
@@ -258,23 +258,20 @@ We designed our own object file format with minimal features to support all our 
 |                   		|
 |              		  		|
 +---------------------------+  
-*/
+
 
 //object header structure
 struct Obj_Header{
-    int text_size;			//size of the text area
-    int text_start;			//begining of the text section	--ironiclly this is always 4 (Fifth word)
-    int entry_point;		//entry point for the executable -- location of the 'main'
-    int data_start;			//starting point of data section
+    int text_size;			// size of the text area
+    int text_start;			// begining of the text section	--ironiclly this is always 4 (Fifth word)
+    int entry_point;		// entry point for the executable -- location of the 'main'
+    int data_start;			// starting point of data section
 }__attribute__((__packed__));
 
 typedef struct Obj_Header O_Header;
-
 ```
 
 * _The program loder and linker copies the entire text section to memory area begining at the current value of PC. it then loads the Data section to the static data section of the memory just below the current value of global pointer ($gp)_
-
-##
 
 ## 4. Assembler 
 
