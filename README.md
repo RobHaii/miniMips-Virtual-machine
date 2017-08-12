@@ -8,7 +8,7 @@ This project demostartes implemetation of a simple 32-bit miniature virtaul mach
 ## 2. ISA Description
 The instruction set architectue we used is really very much like MIPS. we kept all the core conventions and philosophies of MIPS design intact while attempting to reduce the ISA. we mentained data encoding conventions, simplicity and elegance of the Instruction set.
 
-Our ISA has 32 registers (thus needing 5 bits to address them) and a program counter that is not part of the register file. all instructions are orthogonal interms of register access, you can do what ever you want to which ever register of your liking, you are a grown up after all. you should know that your actions may crash the machine. here some pointers to keep in mind:
+Our ISA has 32 registers (thus needing 5 bits to address them) and a program counter that is not part of the register file. all instructions are orthogonal interms of register access, you can do what ever you want to which ever register of your liking. Here are some pointers to keep in mind:
 	
     1. All data manipulation instructions are regiter based, as it is the case with MIPS-32.
     
@@ -23,7 +23,7 @@ Our ISA has 32 registers (thus needing 5 bits to address them) and a program cou
     4. The Ram is an array of Words (32-bits) not bytes(8 bits).
     	This has a very weird and unussual implication... memory offsets need not be multiple of four (4). 
         Data and instruction in memory is aligned, wether you want it to be or not. so PC (program 
-        counter) relative offset of 1 is actually a valid offset. weird, huh?
+        counter) relative offset of 1 is actually a valid offset.
         
         Trust me, it is going to make your life a whole lot easier.
     
