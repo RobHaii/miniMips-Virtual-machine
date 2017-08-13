@@ -276,7 +276,7 @@ usage (for assembler in python):
 _The Assembler doesnt really care if the file format of the assembly file really is *.404 or not. it will work as long as you give it a valid ASCII file. but stick to giving it a file with .404 file format.... show respect to the deelopers and the terms of agreement._
 
 
-##  5. Usage
+##  5. VM Usage
  ```bash
 	#navigate to the virtual machine directory
     #then compile the virtual machine using the makefile provided as:
