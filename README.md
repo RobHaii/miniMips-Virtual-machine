@@ -45,7 +45,7 @@ Every instruction supported by our virtual machine belongs to one of the seven (
 
 4. **Conditional operations**: used for testing conditions BEQ, BNE, SLT
 
-5. **Unconditional operations**: ... J, JR, JR
+5. **Unconditional operations**: ... J, JR, JAL
 
 6. **Halt**:  used to terminate the machine after end of execution of program 
 
