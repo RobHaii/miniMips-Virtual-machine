@@ -3,12 +3,12 @@
 
 ## 1. Introduction
 
-This project demostartes implemetation of a simple 32-bit miniature virtaul machine in c. It uses a simplified version of the MIPS Instruction set architecture (**ISA**). Our simplified ISA follows most of the basic conventions and philosophies behind the design of MIPS-32 ISA. There are, however, a few *non-MIPS* features we have inlcluded just to make our virtual machine do some cool stuff, like read/write to/from terminal with out the need for operating system, but these changes are *very very* minor and it should all be easy for anybody to get the hang of it, especially if you already know **MIPS-32**.
+This project demostartes implemetation of a simple 32-bit miniature virtual machine in c. It uses a simplified version of the MIPS Instruction set architecture (**ISA**). Our simplified ISA follows most of the basic conventions and philosophies behind the design of MIPS-32 ISA. There are, however, a few *non-MIPS* features we have inlcluded just to make our virtual machine do some cool stuff, like read/write to/from terminal with out the need for operating system, but these changes are *very* minor and it should all be easy for anybody to get the hang of it, especially if you already know **MIPS-32**.
 
 ## 2. ISA Description
-The instruction set architectue we used is really very much like MIPS. we kept all the core conventions and philosophies of MIPS design intact while attempting to reduce the ISA. we mentained data encoding conventions, simplicity and elegance of the Instruction set.
+The instruction set architectue we used is really very much like MIPS. We kept all the core conventions and philosophies of MIPS design intact while attempting to reduce the ISA. We mentained data encoding conventions, simplicity and elegance of the Instruction set.
 
-Our ISA has 32 registers (thus needing 5 bits to address them) and a program counter that is not part of the register file. all instructions are orthogonal interms of register access, you can do what ever you want to which ever register of your liking. Here are some pointers to keep in mind:
+Our ISA has 32 registers (thus needing 5 bits to address them) and a program counter that is not part of the register file. All instructions are orthogonal interms of register access, you can do what ever you want to which ever register of your liking. Here are some pointers to keep in mind:
 	
     1. All data manipulation instructions are regiter based, as it is the case with MIPS-32.
     
@@ -20,7 +20,7 @@ Our ISA has 32 registers (thus needing 5 bits to address them) and a program cou
     3. All instructions are orthogonal interms of register access. 
        do what you will with them... just dont complain when you overwrite your own data.
        
-    4. The Ram is an array of Words (32-bits) not bytes(8 bits).
+    4. The RAM is an array of Words (32-bits) not bytes(8 bits).
     	This has a very weird and unussual implication... memory offsets need not be multiple of four (4). 
         Data and instruction in memory is aligned, wether you want it to be or not. so PC (program 
         counter) relative offset of 1 is actually a valid offset.
@@ -30,48 +30,39 @@ Our ISA has 32 registers (thus needing 5 bits to address them) and a program cou
     5. All branches, be it near jump or "far jump", its all pc relative.
        we dont plan to make an os for the VM so we dont expect it to have a RAM grater than 1GB.
        
-    6. we only support integer operations. and strings too... only for reading and writing them though.
+    6. We only support integer operations. and strings too... only for reading and writing them though.
        you can implement your own string libraries if you want
 
 
 
 Every instruction supported by our virtual machine belongs to one of the seven (7) instruction classes: 
 
-1. Arithmetic operations
+1. **Arithmetic operations**: imple arithmetic operations ADD, ADDI, SUB, MUL, DIV..
 
-2. Logical operations
+2. **Logical operations**: simple logical ops AND, OR, NOR, XOR
+ 
+3. **Memory access operations**: memory access instructions LW, SW, LUI..
 
-3. Memory access operations
+4. **Conditional operations**: used for testing conditions BEQ, BNE, SLT
 
-4. Conditional operations
+5. **Unconditional operations**: ... J, JR, JR
 
-5. Unconditional operations
+6. **Halt**:  used to terminate the machine after end of execution of program 
 
-6. Halt
+7. **Interrupts**: used to perform simple non primitive ops like read/write to/from terminal
 
-7. Interrupts
-
-
-
-	Arithmetic operations:  simple arithmetic operations ADD, ADDI, SUB, MUL, DIV..
-    Logical operations: simple logical ops AND, OR, NOR, XOR
-    Memory Access operations: memory access instructions LW, SW, LUI..
-    Conditional operations: used for testing conditions BEQ, BNE, SLT
-    Unconditional operations: ... J, JR, JR
-    Halt:  used to terminate the machine after end of execution of program 
-    Interrupt: used to perform simple non primitive ops like read/write to/from terminal
     
     please see the detailed insruction set list below for further info!!
     
 
-These instruction classes are classified based on the type of operation they perform, not based on the encoding mathods used. The MIPS instruction encoding scheme is also used in our virtual machine ISA. I guess a brief overview of these encoding schemes will do us (you + *us the developers*) all good. MIPS-32 has three instruction encoding schemes, R-type, I-type, J-type. every instruction is 32 bits long and each scheme is made as close to the other schemes to make the instruction set similar and hardware implementation that much easier.   
+These instruction classes are classified based on the type of operations they perform, not based on the encoding methods used. We followed the MIPS-32 instruction encoding format which has three instruction encoding schemes, R-type, I-type, J-type. every instruction is 32 bits long and each encoding scheme is as close to the other encoding schemes to reduce decoding hardware compelexity.  
 
-figure below demostrated the three schemes:
+figure below demostrates the three schemes:
 
 	R-type: for register based instruction 
 	| Opcode (6 bits) |	Rs (5 bits) | Rt (5bits) | Rd (5 bits) | shamt (5 bits) | function (6 bits) |
     
-    *We only used the opcode even though mips uses both opcode and function fileds.
+    *We only used the opcode eventhough mips uses both opcode and function fileds.
     
     	opcode: determines the type of instruction
         Rs: source register one
@@ -177,7 +168,7 @@ figure below demostrated the three schemes:
 
 ## 3. Virtual Machine Description
 
-here is a c code defination of our virtual machine. it has a register file, a program counter that is not in the register file, Random Access Memory (RAM) and a status flag that indicates if the machine ON/OFF.
+Here is a c code defination of our virtual machine. It has a register file, a program counter that is not in the register file, Random Access Memory (RAM) and a status flag that indicates the machine state as ON/OFF.
 
 ```c
 
@@ -201,7 +192,7 @@ The Data type 'Word' is defined in the common-libs.h file as:
 
 ```
 
-The virtual machine runs on an infinite loop of Fetch, Decode and Execute operations with the status flag  *_status_running* used as a flag for machine termination (Halting). code segment below demonstrates this:
+The virtual machine runs on an infinite loop of Fetch, Decode and Execute operations with the status flag  *_status_running* used as a flag for machine termination (Halting). Code segment below demonstrates this:
 
 ```C
 	...
@@ -218,7 +209,7 @@ The virtual machine runs on an infinite loop of Fetch, Decode and Execute operat
 
 ### Memory layout
 
-we used a flat memory model with three segments: Reserved (for boot image), Text area and Stack area. image below describes the memroy scheme used.
+We used a flat memory model with three segments: Reserved (for boot image), Text area and Stack area. Image below describes the memroy scheme used.
 ```
 +-------------------+
 |    Reserved       |
@@ -241,7 +232,7 @@ we used a flat memory model with three segments: Reserved (for boot image), Text
 
 ### Object file format
 
-We designed our own object file format with minimal features to support all our primitive instructions. the figure below demonstarates the object format we used:
+We designed our own object file format with minimal features to support all our primitive instructions. The figure below demonstarates the object format we used:
 
 ```c
 +---------------------------+
@@ -283,3 +274,16 @@ usage (for assembler in python):
 ```
 ##
 _The Assembler doesnt really care if the file format of the assembly file really is *.404 or not. it will work as long as you give it a valid ASCII file. but stick to giving it a file with .404 file format.... show respect to the deelopers and the terms of agreement._
+
+
+##  5. Usage
+ ```bash
+	#navigate to the virtual machine directory
+    #then compile the virtual machine using the makefile provided as:
+  	$ make
+    
+    #run the virtual machine wkith the target program object file as argument
+    
+    $ ./vm prog_file.o
+  
+  ```
